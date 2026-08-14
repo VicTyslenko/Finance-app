@@ -1,8 +1,8 @@
-import { kpiCards } from "./temp-data";
+import { kpiCards } from "../temp-data";
 
 export const KPICards = () => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between mb-5">
       {kpiCards.map((k, i) => (
         <div
           key={k.title}
