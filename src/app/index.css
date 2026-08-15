@@ -71,6 +71,7 @@
 
 body {
   margin: 0;
+  overflow:scroll
 }
 
 p {
