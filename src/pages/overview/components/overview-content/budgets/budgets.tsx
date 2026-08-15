@@ -4,7 +4,7 @@ import { Chart } from "./chart";
 
 export const Budgets = () => {
   return (
-    <div className="bg-white shadow-xl flex-1 pb-34.5 p-5 rounded-md">
+    <div className="bg-white shadow-xl p-5 rounded-md pb-25">
       <ContentHeader title="Budgets" details="See details" />
 
       {/* Chart wrapper */}

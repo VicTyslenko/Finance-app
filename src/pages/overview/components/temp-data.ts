@@ -65,3 +65,9 @@ export const transactionsTable = [
     time: "19 Aug 2024",
   },
 ];
+
+export const billsInfo = [
+  { title: "Paid Bills", price: "190.00", border: "border-yellow-400" },
+  { title: "Total Upcoming", price: "194.98", border: "border-green-800" },
+  { title: "Due Soon", price: "59.98", border: "border-cyan-600" },
+];
