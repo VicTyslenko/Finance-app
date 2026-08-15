@@ -32,3 +32,36 @@ export const details = [
   { title: "Concert ticket", price: "$110", border: "border-gray-400" },
   { title: "New laptop", price: "$10", border: "border-yellow-400" },
 ];
+
+export const transactionsTable = [
+  {
+    avatar: "ella-phillips.jpg",
+    spent: "75.50",
+    name: "ella-phillips",
+    time: "19 Aug 2024",
+  },
+  {
+    avatar: "emma-richardson.jpg",
+    name: "emma-richardson",
+    spent: "75.50",
+    time: "19 Aug 2024",
+  },
+  {
+    avatar: "james-thompson.jpg",
+    name: "james-thompson",
+    spent: "75.50",
+    time: "19 Aug 2024",
+  },
+  {
+    avatar: "liam-hughes.jpg",
+    name: "liam-hughes",
+    spent: "75.50",
+    time: "19 Aug 2024",
+  },
+  {
+    avatar: "lily-ramirez.jpg",
+    name: "lily-ramirez",
+    spent: "75.50",
+    time: "19 Aug 2024",
+  },
+];
