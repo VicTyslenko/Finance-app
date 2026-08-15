@@ -3,7 +3,7 @@ import { details } from "../../temp-data";
 
 export const Pots = () => {
   return (
-    <div className="bg-white shadow-xl p-5 flex-1 rounded-md">
+    <div className="bg-white shadow-xl p-5 rounded-md">
       <ContentHeader title="Pots" details="See details" />
       {/* Content */}
       <div className="flex gap-5">
