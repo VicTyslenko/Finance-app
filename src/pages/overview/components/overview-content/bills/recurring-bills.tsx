@@ -3,7 +3,7 @@ import { billsInfo } from "../../temp-data";
 
 export const RecurringBills = () => {
   return (
-    <div className="bg-white shadow-xl p-7 rounded-md flex-1">
+    <section className="bg-white shadow-xl p-7 rounded-md flex-1">
       <ContentHeader title="Recurring Bills" details="See Details" />
 
       {/* Info wrapp */}
@@ -18,6 +18,6 @@ export const RecurringBills = () => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
