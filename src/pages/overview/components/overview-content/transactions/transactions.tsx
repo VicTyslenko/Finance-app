@@ -6,15 +6,16 @@ type Props = {
 };
 
 export const Transactions = ({ data }: Props) => {
+  const filteredData = data.slice(0, 5);
   return (
     <div className="bg-white shadow-xl flex-1 p-5 rounded-md">
       <ContentHeader title="Transactions" details="View All" />
       {/* Info table */}
 
       <div className="">
-        {data.map((t) => (
+        {filteredData.map((t) => (
           <div
-            key={t.full_name}
+            key={t.user_id}
             className="flex justify-between p-4 border-b border-gray-100"
           >
             {/* Avatar wrapp */}

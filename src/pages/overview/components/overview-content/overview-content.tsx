@@ -7,7 +7,6 @@ import { useGetUsers } from "../../../../entities/users/hooks";
 export const OverviewContent = () => {
   const { data: users = [] } = useGetUsers();
 
-  console.log(users);
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Left column */}
