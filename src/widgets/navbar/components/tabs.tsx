@@ -4,8 +4,10 @@ import { logoPath } from "../lib";
 import { useSearchParams } from "react-router";
 
 const baseClass = "flex p-4 gap-3 cursor-pointer  max-w-80";
-
-export const Tabs = () => {
+type Props = {
+  minimized: boolean;
+};
+export const Tabs = ({ minimized }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentTab = searchParams.get("page") ?? "overview";
@@ -40,7 +42,7 @@ export const Tabs = () => {
                 isActive ? "bg-[#277c78]" : "bg-current"
               }`}
             />
-            {t.title}
+            {!minimized && t.title}
           </button>
         );
       })}
