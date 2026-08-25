@@ -7,3 +7,8 @@ export type TransactionsResponse = {
   amount: number;
   occurred_at: string;
 };
+
+export type TransParams = {
+  user_id: number;
+  limit?: number;
+};
