@@ -2,18 +2,22 @@ import { Budgets } from "./budgets/budgets";
 import { Pots } from "./pots/pots";
 import { Transactions } from "./transactions/transactions";
 import { RecurringBills } from "./bills/recurring-bills";
-import { useGetCounterparties } from "../../../../entities/counterparties/hooks";
+
+import { useGetTransactions } from "../../../../entities/transactions/hooks";
+const TRANS_LIMIT = 5;
 
 export const OverviewContent = () => {
-  const { data: counterparties = [] } = useGetCounterparties();
-  const filtered = counterparties?.filter((u) => u.avatar_url !== null);
+  const { data: transactions = [] } = useGetTransactions({
+    user_id: 1,
+    limit: TRANS_LIMIT,
+  });
 
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Left column */}
       <div className="flex flex-col gap-4 lg:flex-3 min-w-0">
         <Pots />
-        <Transactions data={filtered} />
+        <Transactions data={transactions} />
       </div>
 
       {/* Right column */}

@@ -1,14 +1,11 @@
 import { api } from "../../../shared/client";
-import type { TransactionsResponse } from "../models";
-import { transactionPaths } from "../transactionPaths";
+import type { TransParams, TransactionsResponse } from "../models";
+import { transactionsPaths } from "../transactionsPaths";
 
 export const getTransactions = async ({
   user_id,
   limit,
-}: {
-  user_id: number;
-  limit?: number;
-}): Promise<TransactionsResponse[]> => {
+}: TransParams): Promise<TransactionsResponse[]> => {
   if (limit !== undefined && (limit < 1 || limit > 200)) {
     throw new Error(`Limit must be between 1 and 200, got ${limit}`);
   }
@@ -18,7 +15,7 @@ export const getTransactions = async ({
     params.set("limit", String(limit));
   }
   const data = await api.get<TransactionsResponse[]>(
-    `${transactionPaths.transaction}?${params}`,
+    `${transactionsPaths.transactions}?${params}`,
   );
 
   return data;
