@@ -1,14 +1,18 @@
 import { ContentHeader } from "../content-header";
 import { Avatar } from "./avatar";
 import type { CounterpartiesResponse } from "../../../../../entities/counterparties/models";
-
+import { getTransactions } from "../../../../../entities/transactions/api/transactions";
+import { useEffect } from "react";
 type Props = {
   data: CounterpartiesResponse[];
 };
 
 export const Transactions = ({ data }: Props) => {
   const filteredData = data?.slice(0, 5);
+  useEffect(() => {
 
+
+  }, []);
   return (
     <div className="bg-white shadow-xl flex-1 p-5 rounded-md">
       <ContentHeader title="Transactions" details="View All" />
@@ -27,9 +31,7 @@ export const Transactions = ({ data }: Props) => {
                 <p className="text-sm font-bold text-black">{t.name}</p>
               </div>
               {/* Info wrapp */}
-              <div className="flex flex-col gap-1">
-            
-              </div>
+              <div className="flex flex-col gap-1"></div>
             </div>
           );
         })}
