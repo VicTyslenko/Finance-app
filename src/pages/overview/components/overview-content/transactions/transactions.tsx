@@ -32,7 +32,7 @@ export const Transactions = ({ data }: Props) => {
                 </p>
               </div>
               {/* Info wrapp */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 items-end">
                 <p className={`${amountStyle(t.amount)}`}>
                   {t.amount < 0
                     ? `-$${trimmedNumber(t.amount)}`
