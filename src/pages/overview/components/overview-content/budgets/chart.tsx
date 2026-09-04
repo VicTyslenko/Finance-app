@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
+
 import * as echarts from "echarts";
+
 import { budgets, budgetSpent } from "../../temp-data";
 
 const limitTotal = budgets.reduce((acc, { value }) => {
