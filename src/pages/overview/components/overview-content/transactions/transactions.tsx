@@ -1,8 +1,10 @@
-import { ContentHeader } from "../content-header";
-import { Avatar } from "./avatar";
-import { trimmedNumber, amountStyle } from "./lib";
-
 import type { TransactionsResponse } from "../../../../../entities/transactions/models";
+import { FormattedAmount } from "../../../../../shared/components/formatted-amount";
+import { formatDate } from "../../../../../shared/lib/formatDate";
+import { ContentHeader } from "../content-header";
+
+import { Avatar } from "./avatar";
+
 type Props = {
   data: TransactionsResponse[];
 };
@@ -13,12 +15,9 @@ export const Transactions = ({ data }: Props) => {
       <ContentHeader title="Transactions" details="View All" />
       {/* Info table */}
 
-      <div className="">
+      <div>
         {data.map((t) => {
-          const formattedData = new Date(t.occurred_at).toLocaleDateString(
-            "en-GB",
-            { day: "numeric", month: "short", year: "numeric" },
-          );
+          const formattedDate = formatDate({ date: t.occurred_at });
           return (
             <div
               key={t.transaction_id}
@@ -33,12 +32,8 @@ export const Transactions = ({ data }: Props) => {
               </div>
               {/* Info wrapp */}
               <div className="flex flex-col gap-1 items-end">
-                <p className={`${amountStyle(t.amount)}`}>
-                  {t.amount < 0
-                    ? `-$${trimmedNumber(t.amount)}`
-                    : `+$${trimmedNumber(t.amount)}`}
-                </p>
-                <p className="text-sm text-gray-600">{formattedData}</p>
+                <FormattedAmount amount={t.amount} />
+                <p className="text-sm text-gray-600">{formattedDate}</p>
               </div>
             </div>
           );

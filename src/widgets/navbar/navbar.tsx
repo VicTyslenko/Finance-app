@@ -1,5 +1,6 @@
-import { Tabs } from "./components/tabs";
 import { useState } from "react";
+
+import { Tabs } from "./components/tabs";
 
 export const Navbar = () => {
   const [minimized, setMinimized] = useState(false);

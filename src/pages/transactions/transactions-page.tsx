@@ -1,21 +1,29 @@
-import { SearchInput } from "../../shared/components/search-input/search-input";
+import { useState } from "react";
+
+import { useGetTransactions } from "../../entities/transactions/hooks";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../shared/components/dropdown/dropdown-item";
-import { useState } from "react";
+import { SearchInput } from "../../shared/components/search-input/search-input";
 import { categoryList, sortByList } from "../overview/data";
+
+import { TransactionTable } from "./table/transaction-table";
 
 export const TransactionsPage = () => {
   const [catValue, setCatValue] = useState(categoryList[0].value);
   const [sortValue, setSortValue] = useState(sortByList[0].value);
 
+  const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
+
   return (
-    <div>
-      <h1 className="text-xl font-bold text-black mb-8">Transactions</h1>
+    <div className="flex flex-1 min-h-0 flex-col">
+      <h1 className="shrink-0 text-xl font-bold text-black mb-8">
+        Transactions
+      </h1>
       {/* Content */}
 
-      <div className="w-full bg-white h-screen p-10">
+      <div className="flex flex-1 min-h-0 flex-col w-full bg-white p-10 rounded-lg">
         {/* Filters wrapp */}
-        <div className="flex justify-between items-center">
+        <div className="shrink-0 flex justify-between items-center">
           <SearchInput placeholder="Search transaction" />
           <div className="flex items-center gap-5">
             <DefaultDropdown
@@ -44,6 +52,9 @@ export const TransactionsPage = () => {
             />
           </div>
         </div>
+
+        {/* Table */}
+        <TransactionTable data={transactions} />
       </div>
     </div>
   );

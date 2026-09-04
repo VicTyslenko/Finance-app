@@ -1,5 +1,6 @@
-import { ContentHeader } from "../content-header";
 import { budgets } from "../../temp-data";
+import { ContentHeader } from "../content-header";
+
 import { Chart } from "./chart";
 
 export const Budgets = () => {

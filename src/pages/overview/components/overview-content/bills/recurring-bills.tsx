@@ -1,5 +1,5 @@
-import { ContentHeader } from "../content-header";
 import { billsInfo } from "../../temp-data";
+import { ContentHeader } from "../content-header";
 
 export const RecurringBills = () => {
   return (
