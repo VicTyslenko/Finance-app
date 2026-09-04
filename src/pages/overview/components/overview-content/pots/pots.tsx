@@ -1,5 +1,5 @@
-import { ContentHeader } from "../content-header";
 import { details } from "../../temp-data";
+import { ContentHeader } from "../content-header";
 
 export const Pots = () => {
   return (

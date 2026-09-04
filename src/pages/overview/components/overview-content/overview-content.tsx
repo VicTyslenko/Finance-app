@@ -1,9 +1,11 @@
+import { useGetTransactions } from "../../../../entities/transactions/hooks";
+
+import { RecurringBills } from "./bills/recurring-bills";
 import { Budgets } from "./budgets/budgets";
 import { Pots } from "./pots/pots";
 import { Transactions } from "./transactions/transactions";
-import { RecurringBills } from "./bills/recurring-bills";
 
-import { useGetTransactions } from "../../../../entities/transactions/hooks";
+
 const TRANS_LIMIT = 5;
 
 export const OverviewContent = () => {

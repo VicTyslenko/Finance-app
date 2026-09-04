@@ -52,28 +52,53 @@
   }
 }
 
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
 #root {
   width: 1600px;
   max-width: 100%;
   margin: 0 auto;
-  min-height: 100vh;
-  /* display: flex; */
-  /* width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box; */
-}
-
-body {
-  margin: 0;
-  overflow:scroll
+  height: 100dvh;
 }
 
 p {
   margin: 0;
+}
+
+/* Slim, light native scrollbar for in-app scroll containers. */
+@utility scrollbar-slim {
+  /* Forces the light native scrollbar even when the OS is in dark mode. */
+  color-scheme: light;
+  /* Reserves the gutter so content doesn't shift when the bar appears. */
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(8, 6, 13, 0.2) transparent;
+
+  @supports not (scrollbar-color: auto) {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(8, 6, 13, 0.2);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(8, 6, 13, 0.35);
+    }
+  }
 }
