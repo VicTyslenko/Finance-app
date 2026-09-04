@@ -1,5 +1,6 @@
-import { type CounterpartiesResponse } from "../models";
 import { api } from "../../../shared/client";
+import { type CounterpartiesResponse } from "../models";
+
 import { counterpartiesPaths } from "./paths";
 
 export const getAllCounterparties = async (): Promise<

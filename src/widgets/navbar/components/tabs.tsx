@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
+
+import { useSearchParams } from "react-router";
+
 import { TABS_DATA } from "../data";
 import { logoPath } from "../lib";
-import { useSearchParams } from "react-router";
 
 const baseClass = "flex p-4 gap-3 cursor-pointer  max-w-80";
 type Props = {
