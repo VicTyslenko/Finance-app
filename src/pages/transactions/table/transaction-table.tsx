@@ -8,16 +8,18 @@ import type { TableProps } from "./models";
 
 const features = tableFeatures({});
 
-export const TransactionTable = ({ data }: TableProps) => {
+export const TransactionTable = ({ data, searchValue }: TableProps) => {
   const {
     filteredData,
     handlePageChange,
     handleNext,
     totalPages,
     currentStep,
+
     handleBack,
   } = useTransactionTable({
     data,
+    search: searchValue,
   });
   const transTable = useTable({
     key: "transaction-table",
@@ -26,6 +28,7 @@ export const TransactionTable = ({ data }: TableProps) => {
     data: filteredData,
   });
 
+  console.log(searchValue);
   return (
     <div className="mt-5 flex flex-1 min-h-0 flex-col">
       <div className="scrollbar-slim -mx-10 px-10 flex-1 min-h-0 overflow-y-auto">

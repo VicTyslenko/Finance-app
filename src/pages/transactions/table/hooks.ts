@@ -4,12 +4,14 @@ import { useSearchParams } from "react-router";
 
 import type { TransactionsResponse } from "../../../entities/transactions/models";
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 8;
 
 export const useTransactionTable = ({
   data,
+  search,
 }: {
   data: TransactionsResponse[];
+  search: string;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -61,7 +63,11 @@ export const useTransactionTable = ({
   const start = (Number(currentStep) - 1) * PAGE_SIZE;
   const end = start + PAGE_SIZE;
 
-  const filteredData = data.slice(start, end);
+  const filteredData = data
+    .slice(start, end)
+    .filter((el) =>
+      el.counterparty_slug.toLowerCase().includes(search.toLowerCase()),
+    );
 
   return {
     filteredData,

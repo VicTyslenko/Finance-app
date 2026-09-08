@@ -12,6 +12,8 @@ export const TransactionsPage = () => {
   const [catValue, setCatValue] = useState(categoryList[0].value);
   const [sortValue, setSortValue] = useState(sortByList[0].value);
 
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
 
   return (
@@ -24,7 +26,10 @@ export const TransactionsPage = () => {
       <div className="flex flex-1 min-h-0 flex-col w-full bg-white p-10 rounded-lg">
         {/* Filters wrapp */}
         <div className="shrink-0 flex justify-between items-center">
-          <SearchInput placeholder="Search transaction" />
+          <SearchInput
+            placeholder="Search transaction"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
           <div className="flex items-center gap-5">
             <DefaultDropdown
               label="Sort by"
@@ -54,7 +59,7 @@ export const TransactionsPage = () => {
         </div>
 
         {/* Table */}
-        <TransactionTable data={transactions} />
+        <TransactionTable searchValue={searchValue} data={transactions} />
       </div>
     </div>
   );
