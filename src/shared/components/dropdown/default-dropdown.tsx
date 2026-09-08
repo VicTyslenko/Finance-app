@@ -41,7 +41,7 @@ export const DefaultDropdown = ({
       {label && <p className="text-gray-600 text-sm">{label}</p>}
       <div
         onClick={() => setExpanded((prev) => !prev)}
-        className={`border cursor-pointer shadow-sm p-2 bg-transparent rounded-md flex justify-center items-center gap-3 relative ${customClass ?? ""}`}
+        className={`border cursor-pointer shadow-sm p-2 bg-transparent z-20 rounded-md flex justify-center items-center gap-3 relative ${customClass ?? ""}`}
       >
         <span className="text-black text-sm">{title}</span>
         <img
