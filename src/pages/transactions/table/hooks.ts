@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { useSearchParams } from "react-router";
 
 import type { TransactionsResponse } from "../../../entities/transactions/models";
@@ -8,24 +6,13 @@ const PAGE_SIZE = 8;
 
 export const useTransactionTable = ({
   data,
-  search,
 }: {
   data: TransactionsResponse[];
-  search: string;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const query = searchParams.get("query") ?? "";
   const currentStep = searchParams.get("step") || "1";
-
-  useEffect(() => {
-    setSearchParams((prev) => {
-      const step = prev.get("step");
-      if (!step) {
-        prev.set("step", "1");
-      }
-      return prev;
-    });
-  }, []);
 
   const handlePageChange = (value: number) => {
     setSearchParams((prev) => {
@@ -45,8 +32,13 @@ export const useTransactionTable = ({
       return prev;
     });
   };
+
+  const matching = data.filter((el) =>
+    el.counterparty_slug.toLowerCase().includes(query.toLowerCase()),
+  );
+
   const totalPages: Array<number> = Array.from({
-    length: Math.ceil(data.length / PAGE_SIZE),
+    length: Math.ceil(matching.length / PAGE_SIZE),
   }).map((_, index) => index + 1);
 
   const handleNext = () => {
@@ -60,14 +52,10 @@ export const useTransactionTable = ({
     });
   };
 
-  const start = (Number(currentStep) - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
+  const start: number = (Number(currentStep) - 1) * PAGE_SIZE;
+  const end: number = start + PAGE_SIZE;
 
-  const filteredData = data
-    .slice(start, end)
-    .filter((el) =>
-      el.counterparty_slug.toLowerCase().includes(search.toLowerCase()),
-    );
+  const filteredData = matching.slice(start, end);
 
   return {
     filteredData,
