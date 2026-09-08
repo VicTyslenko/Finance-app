@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router";
 
 import { useGetTransactions } from "../../entities/transactions/hooks";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
@@ -9,10 +9,10 @@ import { categoryList, sortByList } from "../overview/data";
 import { TransactionTable } from "./table/transaction-table";
 
 export const TransactionsPage = () => {
-  const [catValue, setCatValue] = useState(categoryList[0].value);
-  const [sortValue, setSortValue] = useState(sortByList[0].value);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [searchValue, setSearchValue] = useState<string>("");
+  const sortby = searchParams.get("sortby") || sortByList[0].value;
+  const catValue = searchParams.get("category") || categoryList[0].value;
 
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
 
@@ -28,18 +28,29 @@ export const TransactionsPage = () => {
         <div className="shrink-0 flex justify-between items-center">
           <SearchInput
             placeholder="Search transaction"
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              setSearchParams((prev) => {
+                prev.set("query", e.target.value);
+                prev.set("step", "1");
+                return prev;
+              });
+            }}
           />
           <div className="flex items-center gap-5">
             <DefaultDropdown
               label="Sort by"
-              title={sortValue}
+              title={sortby}
               itemsList={sortByList.map((i) => (
                 <DropdownItem
                   key={i.id}
                   text={i.value}
-                  onSelect={setSortValue}
-                  isSelected={i.value === sortValue}
+                  onSelect={() => {
+                    setSearchParams((prev) => {
+                      prev.set("sortby", i.value);
+                      return prev;
+                    });
+                  }}
+                  isSelected={i.value === sortby}
                 />
               ))}
             />
@@ -50,7 +61,12 @@ export const TransactionsPage = () => {
                 <DropdownItem
                   key={i.id}
                   text={i.value}
-                  onSelect={setCatValue}
+                  onSelect={() => {
+                    setSearchParams((prev) => {
+                      prev.set("category", i.value);
+                      return prev;
+                    });
+                  }}
                   isSelected={i.value === catValue}
                 />
               ))}
@@ -59,7 +75,7 @@ export const TransactionsPage = () => {
         </div>
 
         {/* Table */}
-        <TransactionTable searchValue={searchValue} data={transactions} />
+        <TransactionTable data={transactions} />
       </div>
     </div>
   );
