@@ -2,6 +2,8 @@ import { useSearchParams } from "react-router";
 
 import type { TransactionsResponse } from "../../../entities/transactions/models";
 
+import { sortingValues, categories } from "./models";
+
 const PAGE_SIZE = 8;
 
 export const useTransactionTable = ({
@@ -10,9 +12,11 @@ export const useTransactionTable = ({
   data: TransactionsResponse[];
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const query = searchParams.get("query") ?? "";
   const currentStep = searchParams.get("step") || "1";
+
+  const sortby = searchParams.get("sortby") || sortingValues.LATEST;
+  const category = searchParams.get("category") || categories.ALL;
 
   const handlePageChange = (value: number) => {
     setSearchParams((prev) => {
@@ -33,12 +37,34 @@ export const useTransactionTable = ({
     });
   };
 
-  const matching = data.filter((el) =>
-    el.counterparty_slug.toLowerCase().includes(query.toLowerCase()),
-  );
+  const sorted = [...data].sort((a, b) => {
+    switch (sortby) {
+      case sortingValues.ASCEND:
+        return a.counterparty.localeCompare(b.counterparty);
+      case sortingValues.DESCEND:
+        return b.counterparty.localeCompare(a.counterparty);
+      case sortingValues.LATEST:
+        return Date.parse(b.occurred_at) - Date.parse(a.occurred_at);
+      case sortingValues.OLDEST:
+        return Date.parse(a.occurred_at) - Date.parse(b.occurred_at);
+      case sortingValues.LOWEST:
+        return a.amount - b.amount;
+      case sortingValues.HIGHEST:
+        return b.amount - a.amount;
+      default:
+        return 0;
+    }
+  });
+  const filterByCategory =
+    category === categories.ALL
+      ? sorted
+      : sorted.filter((c) => c.category === category);
 
+  const queryFiltered = filterByCategory.filter((el) => {
+    return el.counterparty_slug.toLowerCase().includes(query.toLowerCase());
+  });
   const totalPages: Array<number> = Array.from({
-    length: Math.ceil(matching.length / PAGE_SIZE),
+    length: Math.ceil(queryFiltered.length / PAGE_SIZE),
   }).map((_, index) => index + 1);
 
   const handleNext = () => {
@@ -55,8 +81,7 @@ export const useTransactionTable = ({
   const start: number = (Number(currentStep) - 1) * PAGE_SIZE;
   const end: number = start + PAGE_SIZE;
 
-  const filteredData = matching.slice(start, end);
-
+  const filteredData = queryFiltered.slice(start, end);
   return {
     filteredData,
     currentStep,
