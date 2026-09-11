@@ -4,18 +4,25 @@ import { useGetTransactions } from "../../entities/transactions/hooks";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../shared/components/dropdown/dropdown-item";
 import { SearchInput } from "../../shared/components/search-input/search-input";
-import { categoryList, sortByList } from "../overview/data";
 
+import { categories, sortingValues } from "./table/models";
 import { TransactionTable } from "./table/transaction-table";
 
 export const TransactionsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const sortby = searchParams.get("sortby") || sortByList[0].value;
-  const catValue = searchParams.get("category") || categoryList[0].value;
+  const sortby = searchParams.get("sortby") || sortingValues.LATEST;
+  const category = searchParams.get("category") || categories.ALL;
+
+  const setFilter = (key: string, value: string) => {
+    setSearchParams((prev) => {
+      prev.set(key, value);
+      prev.set("step", "1");
+      return prev;
+    });
+  };
 
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
-
   return (
     <div className="flex flex-1 min-h-0 flex-col">
       <h1 className="shrink-0 text-xl font-bold text-black mb-8">
@@ -28,46 +35,30 @@ export const TransactionsPage = () => {
         <div className="shrink-0 flex justify-between items-center">
           <SearchInput
             placeholder="Search transaction"
-            onChange={(e) => {
-              setSearchParams((prev) => {
-                prev.set("query", e.target.value);
-                prev.set("step", "1");
-                return prev;
-              });
-            }}
+            onChange={(e) => setFilter("query", e.target.value)}
           />
           <div className="flex items-center gap-5">
             <DefaultDropdown
               label="Sort by"
               title={sortby}
-              itemsList={sortByList.map((i) => (
+              itemsList={Object.values(sortingValues).map((value) => (
                 <DropdownItem
-                  key={i.id}
-                  text={i.value}
-                  onSelect={() => {
-                    setSearchParams((prev) => {
-                      prev.set("sortby", i.value);
-                      return prev;
-                    });
-                  }}
-                  isSelected={i.value === sortby}
+                  key={value}
+                  text={value}
+                  onSelect={() => setFilter("sortby", value)}
+                  isSelected={value === sortby}
                 />
               ))}
             />
             <DefaultDropdown
               label="Category"
-              title={catValue}
-              itemsList={categoryList.map((i) => (
+              title={category}
+              itemsList={Object.values(categories).map((value) => (
                 <DropdownItem
-                  key={i.id}
-                  text={i.value}
-                  onSelect={() => {
-                    setSearchParams((prev) => {
-                      prev.set("category", i.value);
-                      return prev;
-                    });
-                  }}
-                  isSelected={i.value === catValue}
+                  key={value}
+                  text={value}
+                  onSelect={() => setFilter("category", value)}
+                  isSelected={value === category}
                 />
               ))}
             />
