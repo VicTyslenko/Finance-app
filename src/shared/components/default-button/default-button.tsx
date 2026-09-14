@@ -1,13 +1,18 @@
 import { BASE_CLASS } from "./data";
-import type { ButtonProps } from "./models";
+import { variants } from "./data";
+import type { ButtonProps, Variants } from "./models";
 
 export const DefaultButton = ({
   children,
+  variant = "primary",
   customClass,
   ...props
 }: ButtonProps) => {
   return (
-    <button className={`${customClass ?? BASE_CLASS}`} {...props}>
+    <button
+      className={`${BASE_CLASS} ${variant && variants[variant as Variants]} ${customClass ?? ""}`}
+      {...props}
+    >
       {children}
     </button>
   );
