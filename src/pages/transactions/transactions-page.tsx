@@ -4,8 +4,9 @@ import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../shared/components/dropdown/dropdown-item";
 import { SearchInput } from "../../shared/components/search-input/search-input";
+import { categories } from "../../shared/models";
 
-import { categories, sortingValues } from "./table/models";
+import { sortingValues } from "./table/models";
 import { TransactionTable } from "./table/transaction-table";
 
 export const TransactionsPage = ({

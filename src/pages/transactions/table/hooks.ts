@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router";
 
 import type { TransactionsResponse } from "../../../entities/transactions/models";
+import { categories } from "../../../shared/models";
 
-import { sortingValues, categories } from "./models";
+import { sortingValues } from "./models";
 
 const PAGE_SIZE = 8;
 

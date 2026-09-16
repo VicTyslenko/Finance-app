@@ -6,7 +6,7 @@ interface ModalProps {
 export const DefaultModal = ({ children }: ModalProps) => {
   const modal = useModalStore((state) => state.isOpen);
   const closeModal = useModalStore((state) => state.closeModal);
-  if (!modal) return;
+  if (modal) return;
 
   return (
     <div

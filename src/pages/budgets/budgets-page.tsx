@@ -1,17 +1,17 @@
 import type { TransactionsResponse } from "../../entities/transactions/models";
-import { DefaultButton } from "../../shared/components/default-button/default-button";
+import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { Chart } from "../overview/components/overview-content/budgets/chart";
+
+import { NewBudgetForm } from "./budgets-content/new-budget-form/new-budget-form";
 
 export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
   // const filteredData = data.filter((el) => {
   //   console.log(el.amount);
   // });
 
-  const modal = useModalStore((state) => state.isOpen);
   const openModal = useModalStore((state) => state.openModal);
-  console.log(modal);
   return (
     <div>
       {/* Header */}
@@ -33,9 +33,7 @@ export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
           </div>
         </div>
       </div>
-      <DefaultModal>
-        <div>Some inner stuff</div>
-      </DefaultModal>
+      <DefaultModal children={<NewBudgetForm />} />
     </div>
   );
 };
