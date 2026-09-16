@@ -51,7 +51,9 @@ export const DefaultDropdown = ({
         />
 
         {expanded && (
-          <div className="border shadow-sm rounded-md p-2 absolute top-11  w-max whitespace-nowrap bg-white z-10">
+          <div
+            className={`border shadow-sm rounded-md p-2 absolute top-11 whitespace-nowrap bg-white z-10 ${customClass ? "w-full" : "w-max"}`}
+          >
             {itemsList}
           </div>
         )}

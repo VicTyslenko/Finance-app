@@ -1,8 +1,11 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
+import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
 import { DefaultDropdown } from "../../../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../../../shared/components/dropdown/dropdown-item";
+import { DefaultInput } from "../../../../shared/components/form/default-input";
+import { FormLabel } from "../../../../shared/components/form/form-label";
 import { useModalStore } from "../../../../shared/components/modals/modals-store";
 import { budgetCategory } from "../../models";
 
@@ -21,9 +24,11 @@ export const NewBudgetForm = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
     console.log(values);
+    setValue("maxSpend", "");
   };
   const category = watch("category") || budgetCategory.ENTERTAINMENT;
-  
+  // const maxSpend = watch("maxSpend") || "";
+
   return (
     <div className="flex flex-col gap-3 w-125">
       {/* Header */}
@@ -38,13 +43,15 @@ export const NewBudgetForm = () => {
       </p>
 
       {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <div>
+          <FormLabel text="Budget Category" />
           <DefaultDropdown
+            customClass="w-full"
             itemsList={Object.values(budgetCategory).map((c) => (
               <DropdownItem
                 key={c}
-                isSelected={true}
+                isSelected={category === c}
                 onSelect={() => {
                   setValue("category", c);
                 }}
@@ -55,7 +62,13 @@ export const NewBudgetForm = () => {
           >
             Some stuff here
           </DefaultDropdown>
-        </label>
+        </div>
+
+        <div>
+          <FormLabel text="Maximum Spend" />
+          <DefaultInput {...register("maxSpend")} placeholder="$  e.g.2000" />
+        </div>
+        <DefaultButton type="submit">Submit</DefaultButton>
       </form>
     </div>
   );

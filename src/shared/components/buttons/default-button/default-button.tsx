@@ -5,6 +5,7 @@ import type { ButtonProps, Variants } from "./models";
 export const DefaultButton = ({
   children,
   variant = "primary",
+  type = "button",
   customClass,
   ...props
 }: ButtonProps) => {

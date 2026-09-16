@@ -69,10 +69,6 @@ body {
   height: 100dvh;
 }
 
-p {
-  margin: 0;
-}
-
 /* Slim, light native scrollbar for in-app scroll containers. */
 @utility scrollbar-slim {
   /* Forces the light native scrollbar even when the OS is in dark mode. */
