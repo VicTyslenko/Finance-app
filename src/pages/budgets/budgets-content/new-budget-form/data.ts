@@ -7,3 +7,5 @@ export const budgetThemes = [
   { name: "Red", value: "#FF0000" },
   { name: "Purple", value: "#800080" },
 ];
+
+export const DEFAULT_THEME = budgetThemes[0];

@@ -10,7 +10,7 @@ import { useModalStore } from "../../../../shared/components/modals/modals-store
 import { budgetCategory } from "../../models";
 import type { BudgetForm } from "../../models";
 
-import { budgetThemes } from "./data";
+import { budgetThemes, DEFAULT_THEME } from "./data";
 
 export const NewBudgetForm = () => {
   const { register, handleSubmit, watch, setValue } = useForm<BudgetForm>();
@@ -22,9 +22,11 @@ export const NewBudgetForm = () => {
     setValue("maxSpend", "");
   };
   const category = watch("category") || budgetCategory.ENTERTAINMENT;
-  const theme = watch("theme") || "Green";
-  const color = watch("color") || "#08751C";
-  
+  const theme = watch("theme") || DEFAULT_THEME.name;
+
+  const currentColor =
+    budgetThemes.find((o) => o.name === theme)?.value ?? DEFAULT_THEME.value;
+
   return (
     <div className="flex flex-col gap-3 w-125">
       {/* Header */}
@@ -71,7 +73,7 @@ export const NewBudgetForm = () => {
         <div>
           <FormLabel text="Theme" />
           <DefaultDropdown
-            withColor={color}
+            withColor={currentColor}
             customClass="w-full"
             itemsList={budgetThemes.map((t) => (
               <DropdownItem
@@ -80,7 +82,6 @@ export const NewBudgetForm = () => {
                 isSelected={theme === t.name}
                 onSelect={() => {
                   setValue("theme", t.name);
-                  setValue("color", t.value);
                 }}
                 text={t.name}
               />
