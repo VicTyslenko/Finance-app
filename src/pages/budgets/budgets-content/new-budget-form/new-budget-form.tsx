@@ -8,32 +8,29 @@ import { DefaultInput } from "../../../../shared/components/form/default-input";
 import { FormLabel } from "../../../../shared/components/form/form-label";
 import { useModalStore } from "../../../../shared/components/modals/modals-store";
 import { budgetCategory } from "../../models";
+import type { BudgetForm } from "../../models";
 
-type Inputs = {
-  category: string;
-  maxSpend: string;
-  theme: string;
-};
+import { budgetThemes } from "./data";
+
 export const NewBudgetForm = () => {
-  const { register, handleSubmit, watch, formState, setValue } =
-    useForm<Inputs>();
-
-  const { errors } = formState;
+  const { register, handleSubmit, watch, setValue } = useForm<BudgetForm>();
 
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const onSubmit: SubmitHandler<Inputs> = (values) => {
+  const onSubmit: SubmitHandler<BudgetForm> = (values) => {
     console.log(values);
     setValue("maxSpend", "");
   };
   const category = watch("category") || budgetCategory.ENTERTAINMENT;
-  // const maxSpend = watch("maxSpend") || "";
-
+  const theme = watch("theme") || "Green";
+  const color = watch("color") || "#08751C";
+  
   return (
     <div className="flex flex-col gap-3 w-125">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Add New Budget</h1>
+
         <CloseButton onClose={closeModal} />
       </div>
       {/* Description */}
@@ -44,6 +41,7 @@ export const NewBudgetForm = () => {
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        {/* Budget category */}
         <div>
           <FormLabel text="Budget Category" />
           <DefaultDropdown
@@ -59,16 +57,37 @@ export const NewBudgetForm = () => {
               />
             ))}
             title={category}
-          >
-            Some stuff here
-          </DefaultDropdown>
+          />
         </div>
 
+        {/* Maximum spend */}
         <div>
           <FormLabel text="Maximum Spend" />
           <DefaultInput {...register("maxSpend")} placeholder="$  e.g.2000" />
         </div>
         <DefaultButton type="submit">Submit</DefaultButton>
+
+        {/* Theme */}
+        <div>
+          <FormLabel text="Theme" />
+          <DefaultDropdown
+            withColor={color}
+            customClass="w-full"
+            itemsList={budgetThemes.map((t) => (
+              <DropdownItem
+                color={t.value}
+                key={t.name}
+                isSelected={theme === t.name}
+                onSelect={() => {
+                  setValue("theme", t.name);
+                  setValue("color", t.value);
+                }}
+                text={t.name}
+              />
+            ))}
+            title={theme}
+          />
+        </div>
       </form>
     </div>
   );

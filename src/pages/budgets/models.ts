@@ -1,3 +1,10 @@
+export type BudgetForm = {
+  category: string;
+  maxSpend: string;
+  theme: string;
+  color: string;
+};
+
 export const budgetCategory = {
   ENTERTAINMENT: "Entertainment",
   BILLS: "Bills",
