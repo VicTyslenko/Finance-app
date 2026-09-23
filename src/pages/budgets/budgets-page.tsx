@@ -17,11 +17,13 @@ export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold text-black"> Budgets</h1>
+
         <DefaultButton onClick={openModal} variant="secondary">
           + Add New Budget
         </DefaultButton>
       </div>
       {/* Content */}
+
       <div className="flex gap-4">
         <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
           <div className="pl-10 pr-10">

@@ -12,7 +12,7 @@ export const DropdownItem = ({
   return (
     <div
       onClick={() => onSelect(text)}
-      className={`text-sm ${isSelected ? "text-black" : "text-gray-400"} border-b hover:bg-gray-300 rounded-md last:border-b-0 border-b-gray-200 p-1.5`}
+      className={`text-sm ${isSelected ? "text-black" : "text-gray-500"} border-b hover:bg-gray-300 rounded-md last:border-b-0 border-b-gray-200 p-1.5`}
     >
       {color ? (
         <div className="flex items-center gap-2">

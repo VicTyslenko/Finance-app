@@ -12,22 +12,23 @@ interface DefaultDropdownProps extends HTMLAttributes<HTMLDivElement> {
   label?: string;
   customClass?: string;
   withColor?: string;
+  directionUp?: boolean;
 }
 
+// const dropdownDirection =
 export const DefaultDropdown = ({
   title,
   itemsList,
   label,
   customClass,
   withColor,
+  directionUp,
 }: DefaultDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    if (!expanded) return;
-
+    // if (!expanded) return;
     const handleClickOutside = (event: MouseEvent) => {
       if (!dropdownRef.current?.contains(event.target as Node))
         setExpanded(false);
@@ -64,7 +65,7 @@ export const DefaultDropdown = ({
 
         {expanded && (
           <div
-            className={`border z-30 shadow-sm rounded-md p-2 absolute top-11 left-0 whitespace-nowrap bg-white ${customClass ? "w-full" : "w-max"}`}
+            className={`border z-30 shadow-sm rounded-md p-2 absolute ${directionUp ? "bottom-11 left-0" : "top-11 left-0 "} whitespace-nowrap bg-white ${customClass ? "w-full" : "w-max"}`}
           >
             {itemsList}
           </div>

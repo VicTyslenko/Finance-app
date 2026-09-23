@@ -30,6 +30,7 @@ export const NewBudgetForm = () => {
   return (
     <div className="flex flex-col gap-3 w-125">
       {/* Header */}
+
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Add New Budget</h1>
 
@@ -73,6 +74,7 @@ export const NewBudgetForm = () => {
         <div>
           <FormLabel text="Theme" />
           <DefaultDropdown
+            directionUp
             withColor={currentColor}
             customClass="w-full"
             itemsList={budgetThemes.map((t) => (
