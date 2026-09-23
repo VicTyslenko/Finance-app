@@ -10,10 +10,12 @@ import { useModalStore } from "../../../../shared/components/modals/modals-store
 import { budgetCategory } from "../../models";
 import type { BudgetForm } from "../../models";
 
-import { budgetThemes, DEFAULT_THEME } from "./data";
+import { budgetThemes, DEFAULT_THEME, defaultValues } from "./data";
 
 export const NewBudgetForm = () => {
-  const { register, handleSubmit, watch, setValue } = useForm<BudgetForm>();
+  const { register, handleSubmit, watch, setValue } = useForm<BudgetForm>({
+    defaultValues,
+  });
 
   const closeModal = useModalStore((state) => state.closeModal);
 
@@ -23,7 +25,6 @@ export const NewBudgetForm = () => {
   };
   const category = watch("category") || budgetCategory.ENTERTAINMENT;
   const theme = watch("theme") || DEFAULT_THEME.name;
-
   const currentColor =
     budgetThemes.find((o) => o.name === theme)?.value ?? DEFAULT_THEME.value;
 

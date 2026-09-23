@@ -1,3 +1,5 @@
+import { budgetCategory } from "../../models";
+
 export const budgetThemes = [
   { name: "Green", value: "#08751C" },
   { name: "Yellow", value: "#FFFF00" },
@@ -9,3 +11,9 @@ export const budgetThemes = [
 ];
 
 export const DEFAULT_THEME = budgetThemes[0];
+
+export const defaultValues = {
+  category: budgetCategory.ENTERTAINMENT,
+  maxSpend: "",
+  theme: DEFAULT_THEME.name,
+};
