@@ -1,14 +1,19 @@
 import { useSearchParams } from "react-router";
 
-import { useGetTransactions } from "../../entities/transactions/hooks";
+import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../shared/components/dropdown/dropdown-item";
 import { SearchInput } from "../../shared/components/search-input/search-input";
+import { categories } from "../../shared/models";
 
-import { categories, sortingValues } from "./table/models";
+import { sortingValues } from "./table/models";
 import { TransactionTable } from "./table/transaction-table";
 
-export const TransactionsPage = () => {
+export const TransactionsPage = ({
+  data,
+}: {
+  data: TransactionsResponse[];
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sortby = searchParams.get("sortby") || sortingValues.LATEST;
@@ -22,7 +27,6 @@ export const TransactionsPage = () => {
     });
   };
 
-  const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
   return (
     <div className="flex flex-1 min-h-0 flex-col">
       <h1 className="shrink-0 text-xl font-bold text-black mb-8">
@@ -66,7 +70,7 @@ export const TransactionsPage = () => {
         </div>
 
         {/* Table */}
-        <TransactionTable data={transactions} />
+        <TransactionTable data={data} />
       </div>
     </div>
   );

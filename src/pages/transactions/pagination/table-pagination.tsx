@@ -1,4 +1,4 @@
-import { DefaultButton } from "../../../shared/components/default-button/default-button";
+import { DefaultButton } from "../../../shared/components/buttons/default-button/default-button";
 
 import type { PaginationProps } from "./models";
 
