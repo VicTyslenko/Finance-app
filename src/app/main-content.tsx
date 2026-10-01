@@ -13,12 +13,12 @@ export const MainContent = () => {
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
 
   return (
-    <div className="flex flex-3 min-w-0 min-h-0 flex-col p-8 bg-[#dbe3e3]">
+    <div className="flex flex-3 min-w-0 min-h-0 flex-col p-8">
       {currentPage === NAV_TABS.OVERVIEW && <OverviewPage />}
       {currentPage === NAV_TABS.TRANSACTIONS && (
         <TransactionsPage data={transactions} />
       )}
-      {currentPage === NAV_TABS.BUDGETS && <BudgetsPage data={transactions} />}
+      {currentPage === NAV_TABS.BUDGETS && <BudgetsPage data={[]} />}
     </div>
   );
 };

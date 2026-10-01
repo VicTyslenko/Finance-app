@@ -1,3 +1,4 @@
+import type { CreateBudgetBody } from "../../../../entities/budgets/models";
 import { budgetCategory } from "../../models";
 
 export const budgetThemes = [
@@ -12,8 +13,8 @@ export const budgetThemes = [
 
 export const DEFAULT_THEME = budgetThemes[0];
 
-export const defaultValues = {
+export const defaultValues: CreateBudgetBody = {
   category: budgetCategory.ENTERTAINMENT,
-  maxSpend: "",
+  maximum_spend: "",
   theme: DEFAULT_THEME.name,
 };

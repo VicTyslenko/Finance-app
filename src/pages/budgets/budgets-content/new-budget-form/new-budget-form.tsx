@@ -1,5 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 
+import { useBudgetCreate } from "../../../../entities/budgets/hooks";
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
 import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
 import { DefaultDropdown } from "../../../../shared/components/dropdown/default-dropdown";
@@ -7,26 +8,32 @@ import { DropdownItem } from "../../../../shared/components/dropdown/dropdown-it
 import { DefaultInput } from "../../../../shared/components/form/default-input";
 import { FormLabel } from "../../../../shared/components/form/form-label";
 import { useModalStore } from "../../../../shared/components/modals/modals-store";
+import { parseErrorMessage } from "../../lib";
 import { budgetCategory } from "../../models";
-import type { BudgetForm } from "../../models";
 
 import { budgetThemes, DEFAULT_THEME, defaultValues } from "./data";
+import type { Body } from "./validation";
 
 export const NewBudgetForm = () => {
-  const { register, handleSubmit, watch, setValue } = useForm<BudgetForm>({
+  const { register, handleSubmit, watch, setValue } = useForm<Body>({
     defaultValues,
   });
 
   const closeModal = useModalStore((state) => state.closeModal);
 
-  const onSubmit: SubmitHandler<BudgetForm> = (values) => {
-    console.log(values);
-    setValue("maxSpend", "");
+  const { mutate: createBudget, error } = useBudgetCreate();
+
+  const onSubmit: SubmitHandler<Body> = async (values) => {
+    setValue("maximum_spend", "");
+    createBudget({ id: 1, body: values }, { onSuccess: () => closeModal() });
   };
+
   const category = watch("category") || budgetCategory.ENTERTAINMENT;
   const theme = watch("theme") || DEFAULT_THEME.name;
   const currentColor =
     budgetThemes.find((o) => o.name === theme)?.value ?? DEFAULT_THEME.value;
+
+  const errorMessage = parseErrorMessage(error);
 
   return (
     <div className="flex flex-col gap-3 w-125">
@@ -67,9 +74,11 @@ export const NewBudgetForm = () => {
         {/* Maximum spend */}
         <div>
           <FormLabel text="Maximum Spend" />
-          <DefaultInput {...register("maxSpend")} placeholder="$  e.g.2000" />
+          <DefaultInput
+            {...register("maximum_spend")}
+            placeholder="$  e.g.2000"
+          />
         </div>
-        <DefaultButton type="submit">Submit</DefaultButton>
 
         {/* Theme */}
         <div>
@@ -92,6 +101,13 @@ export const NewBudgetForm = () => {
             title={theme}
           />
         </div>
+        {errorMessage && <p className="text-red-700 text-sm">{errorMessage}</p>}
+        <DefaultButton
+          type="submit"
+          className="bg-black text-white text-sm p-3 cursor-pointer font-bold rounded-md"
+        >
+          Add Budget
+        </DefaultButton>
       </form>
     </div>
   );
