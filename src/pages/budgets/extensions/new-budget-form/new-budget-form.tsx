@@ -25,7 +25,7 @@ export const NewBudgetForm = () => {
 
   const onSubmit: SubmitHandler<Body> = async (values) => {
     setValue("maximum_spend", "");
-    createBudget({ id: 1, body: values }, { onSuccess: () => closeModal() });
+    createBudget({ id: 2, body: values }, { onSuccess: () => closeModal() });
   };
 
   const category = watch("category") || budgetCategory.ENTERTAINMENT;

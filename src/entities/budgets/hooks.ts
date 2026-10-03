@@ -1,7 +1,14 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
-import { createBudget } from "./api/budgets";
+import { createBudget, getBudgets } from "./api/budgets";
 import type { Budget } from "./models";
+
+export const useGetBudgets = (id: number) => {
+  return useQuery({
+    queryKey: ["budgets", id],
+    queryFn: () => getBudgets(id),
+  });
+};
 
 export const useBudgetCreate = () => {
   const queryClient = useQueryClient();

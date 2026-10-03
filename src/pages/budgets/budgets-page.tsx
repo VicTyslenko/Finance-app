@@ -1,4 +1,4 @@
-import type { TransactionsResponse } from "../../entities/transactions/models";
+import type { BudgetResponse } from "../../entities/budgets/models";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
@@ -6,19 +6,19 @@ import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { Chart } from "../overview/components/overview-content/budgets/chart";
 
-import { NewBudgetForm } from "./budgets-content/new-budget-form/new-budget-form";
+import { NewBudgetForm } from "./extensions/new-budget-form/new-budget-form";
 
-export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
+export const BudgetsPage = ({ data: budgets }: { data: BudgetResponse[] }) => {
   const openModal = useModalStore((state) => state.openModal);
 
-  // if (!data.length)
-  //   return (
-  //     <div className="w-full h-full flex justify-center mt-30">
-  //       <span className="text-black">
-  //         There are no budgets yet. Create the first one
-  //       </span>
-  //     </div>
-  //   );
+  if (!budgets.length)
+    return (
+      <div className="w-full h-full flex justify-center mt-30">
+        <span className="text-black">
+          There are no budgets yet. Create the first one
+        </span>
+      </div>
+    );
 
   return (
     <div>
@@ -33,17 +33,25 @@ export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
       {/* Content */}
 
       <div className="flex gap-4">
-        {false && (
-          <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
-            <div className="pl-10 pr-10">
-              <Chart />
-            </div>
-            {/* Summary */}
-            <div className="flex flex-col gap-3">
-              <h2 className="text-black text-lg font-bold">Spending Summary</h2>
-            </div>
+        <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
+          <div className="pl-10 pr-10">
+            <Chart />
           </div>
-        )}
+
+          {/* Summary */}
+          <div className="flex flex-col gap-3">
+            <h2 className="text-black text-lg font-bold">Spending Summary</h2>
+            {budgets.map((b) => (
+              <div
+                key={b.budget_id}
+                className="flex justify-between items-center"
+              >
+                <span>{b.category}</span>
+                
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <DefaultModal children={<NewBudgetForm />} />
       <WarningModal title="" description="" confirmText="" />

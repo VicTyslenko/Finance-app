@@ -9,10 +9,11 @@ export type Budget = {
   id: number;
 };
 
-export type CreateBudgetResponse = {
+export type BudgetResponse = {
   budget_id: number;
   category: string;
   maximum_spend: string;
   theme: string;
   createdAt: Date;
 };
+
