@@ -3,6 +3,7 @@ import { DefaultButton } from "../../shared/components/buttons/default-button/de
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
+import { PagesHeader } from "../../shared/components/pages-header";
 import { Chart } from "../overview/components/overview-content/budgets/chart";
 
 import { NewBudgetForm } from "./budgets-content/new-budget-form/new-budget-form";
@@ -23,7 +24,7 @@ export const BudgetsPage = ({ data }: { data: TransactionsResponse[] }) => {
     <div>
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold text-black"> Budgets</h1>
+        <PagesHeader title="Budgets" />
 
         <DefaultButton onClick={openModal} variant="secondary">
           + Add New Budget

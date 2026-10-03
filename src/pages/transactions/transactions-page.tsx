@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router";
 import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultDropdown } from "../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../shared/components/dropdown/dropdown-item";
+import { PagesHeader } from "../../shared/components/pages-header";
 import { SearchInput } from "../../shared/components/search-input/search-input";
 import { categories } from "../../shared/models";
 
@@ -29,9 +30,7 @@ export const TransactionsPage = ({
 
   return (
     <div className="flex flex-1 min-h-0 flex-col">
-      <h1 className="shrink-0 text-xl font-bold text-black mb-8">
-        Transactions
-      </h1>
+      <PagesHeader title="Transactions" />
       {/* Content */}
 
       <div className="flex flex-1 min-h-0 flex-col w-full bg-white p-10 rounded-lg">
