@@ -1,15 +1,21 @@
-import type { BudgetResponse } from "../../entities/budgets/models";
+import { useGetBudgets } from "../../entities/budgets/hooks";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
-import { Chart } from "../overview/components/overview-content/budgets/chart";
+import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
 
 import { NewBudgetForm } from "./extensions/new-budget-form/new-budget-form";
 
-export const BudgetsPage = ({ data: budgets }: { data: BudgetResponse[] }) => {
+export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
   const openModal = useModalStore((state) => state.openModal);
+
+  const { data: budgets = [] } = useGetBudgets(1);
+
+  const limit = budgets.reduce((acc, { maximum_spend }) => {
+    return (acc += Number(maximum_spend));
+  }, 0);
 
   if (!budgets.length)
     return (
@@ -35,7 +41,7 @@ export const BudgetsPage = ({ data: budgets }: { data: BudgetResponse[] }) => {
       <div className="flex gap-4">
         <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
           <div className="pl-10 pr-10">
-            <Chart />
+            {<Chart totalSpend={totalSpend} limit={limit} />}
           </div>
 
           {/* Summary */}
@@ -44,10 +50,10 @@ export const BudgetsPage = ({ data: budgets }: { data: BudgetResponse[] }) => {
             {budgets.map((b) => (
               <div
                 key={b.budget_id}
-                className="flex justify-between items-center"
+                className="flex justify-between items-center border-l-2 pl-2 pr-2"
               >
                 <span>{b.category}</span>
-                
+                <p>Some stuff here</p>
               </div>
             ))}
           </div>

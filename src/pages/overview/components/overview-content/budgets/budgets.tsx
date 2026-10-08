@@ -1,7 +1,7 @@
 import { budgets } from "../../temp-data";
 import { ContentHeader } from "../content-header";
 
-import { Chart } from "./chart";
+import { Chart } from "./chart/chart";
 
 export const Budgets = () => {
   return (

@@ -6,7 +6,7 @@ import { OverviewContent } from "./components/overview-content/overview-content"
 export const OverviewPage = () => {
   return (
     <div className="scrollbar-slim flex-1">
-      <PagesHeader title="Overview"/>
+      <PagesHeader title="Overview" />
       <KPICards />
       <OverviewContent />
     </div>
