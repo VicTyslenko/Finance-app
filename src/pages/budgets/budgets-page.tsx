@@ -36,7 +36,6 @@ export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
           + Add New Budget
         </DefaultButton>
       </div>
-      {/* Content */}
 
       <div className="flex gap-4">
         <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
