@@ -2,18 +2,21 @@ import { useEffect, useRef } from "react";
 
 import * as echarts from "echarts";
 
-import { budgets, budgetSpent } from "../../temp-data";
+import { budgets } from "../../../temp-data";
 
-const limitTotal = budgets.reduce((acc, { value }) => {
-  const result = acc + value;
-  return result;
-}, 0);
+import type { ChartProps } from "./models";
 
-const option = {
+const option = ({
+  totalSpend,
+  limit,
+}: {
+  totalSpend: number;
+  limit: number;
+}) => ({
   // Sits inside the hole of the donut
   title: {
-    text: `$${budgetSpent}`,
-    subtext: `of $${limitTotal} limit`,
+    text: `$${totalSpend}`,
+    subtext: `of $${limit} limit`,
     top: "center",
     itemGap: 2,
     textStyle: { fontSize: 32, fontWeight: "bold", color: "#201F24" },
@@ -55,23 +58,34 @@ const option = {
       data: budgets,
     },
   ],
-};
-export const Chart = () => {
-  const chartRef = useRef<HTMLDivElement>(null);
+});
 
+export const Chart = ({ limit, totalSpend }: ChartProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<echarts.ECharts | null>(null);
+
+  // Create once on mount, dispose on unmount
   useEffect(() => {
-    const chart = echarts.init(chartRef.current);
-    chart.setOption(option);
+    if (!containerRef.current) return;
+
+    const chart = echarts.init(containerRef.current);
+    chartRef.current = chart;
 
     // init measures the container once, so keep it in sync with layout changes
     const observer = new ResizeObserver(() => chart.resize());
-    if (chartRef.current) observer.observe(chartRef.current);
+    observer.observe(containerRef.current);
 
     return () => {
       observer.disconnect();
       chart.dispose();
+      chartRef.current = null;
     };
   }, []);
 
-  return <div ref={chartRef} className="h-60 w-50 flex-1" />;
+  // Push new data into the existing chart whenever the props change
+  useEffect(() => {
+    chartRef.current?.setOption(option({ totalSpend, limit }));
+  }, [totalSpend, limit]);
+
+  return <div ref={containerRef} className="h-60 w-50 flex-1" />;
 };

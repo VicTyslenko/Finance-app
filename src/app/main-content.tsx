@@ -12,13 +12,20 @@ export const MainContent = () => {
 
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
 
+  const totalSpend = transactions.reduce(
+    (acc, { amount }): number => Math.round(acc + amount),
+    0,
+  );
+
   return (
-    <div className="flex flex-3 min-w-0 min-h-0 flex-col p-8">
+    <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && <OverviewPage />}
       {currentPage === NAV_TABS.TRANSACTIONS && (
         <TransactionsPage data={transactions} />
       )}
-      {currentPage === NAV_TABS.BUDGETS && <BudgetsPage data={[]} />}
+      {currentPage === NAV_TABS.BUDGETS && (
+        <BudgetsPage totalSpend={totalSpend} />
+      )}
     </div>
   );
 };

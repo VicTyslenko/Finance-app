@@ -63,10 +63,9 @@ body {
 }
 
 #root {
-  width: 1600px;
+  /* width: 1600px; */
   max-width: 100%;
   margin: 0 auto;
-  height: 100dvh;
 }
 
 /* Slim, light native scrollbar for in-app scroll containers. */

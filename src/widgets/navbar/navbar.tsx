@@ -7,7 +7,7 @@ export const Navbar = () => {
 
   return (
     <div
-      className={`relative ${minimized ? "flex-0" : "flex-1"} bg-gray-900 pt-5 rounded-r-lg`}
+      className={`relative ${minimized ? "flex-0" : "flex-1"} bg-gray-900 pt-5  rounded-r-lg`}
     >
       <nav>
         {!minimized && (
