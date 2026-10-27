@@ -1,15 +1,20 @@
 import { useGetBudgets } from "../../entities/budgets/hooks";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
-import { DefaultPopup } from "../../shared/components/default-popup/default-popup";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
 
-import { NewBudgetForm } from "./extensions/new-budget-form/new-budget-form";
+import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";
 
-export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
+export const BudgetsPage = ({
+  totalSpend,
+  categorySpend,
+}: {
+  totalSpend: number;
+  categorySpend: (cat: string) => number;
+}) => {
   const openModal = useModalStore((state) => state.openModal);
 
   const { data: budgets = [] } = useGetBudgets(2);
@@ -44,15 +49,22 @@ export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
             {/* Summary */}
             <div className="flex flex-col gap-3">
               <h2 className="text-black text-lg font-bold">Spending Summary</h2>
-              {budgets.map((b) => (
-                <div
-                  key={b.budget_id}
-                  className="flex justify-between items-center border-l-2 pl-2 pr-2"
-                >
-                  <span>{b.category}</span>
-                  <p>Some stuff here</p>
-                </div>
-              ))}
+              {budgets.map((b) => {
+                const roundedSpend = Math.abs(
+                  Math.round(categorySpend(b.category)),
+                );
+                return (
+                  <div
+                    key={b.budget_id}
+                    className="flex justify-between items-center border-l-2 pl-2 pr-2"
+                  >
+                    <span>{b.category}</span>
+                    <p>
+                      ${roundedSpend} of {b.maximum_spend}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

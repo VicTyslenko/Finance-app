@@ -16,7 +16,12 @@ export const MainContent = () => {
     (acc, { amount }): number => Math.round(acc + amount),
     0,
   );
-  
+
+  const categorySpend = (cat: string) =>
+    transactions
+      .filter((t) => t.category === cat)
+      ?.reduce((acc, cat) => acc + Number(cat.amount), 0);
+
   return (
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && <OverviewPage />}
@@ -24,7 +29,7 @@ export const MainContent = () => {
         <TransactionsPage data={transactions} />
       )}
       {currentPage === NAV_TABS.BUDGETS && (
-        <BudgetsPage totalSpend={totalSpend} />
+        <BudgetsPage totalSpend={totalSpend} categorySpend={categorySpend} />
       )}
     </div>
   );
