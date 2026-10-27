@@ -1,5 +1,6 @@
 import { useGetBudgets } from "../../entities/budgets/hooks";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
+import { DefaultPopup } from "../../shared/components/default-popup/default-popup";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
@@ -27,8 +28,13 @@ export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
           + Add New Budget
         </DefaultButton>
       </div>
-
-      {budgets.length ? (
+      {!budgets.length ? (
+        <div className="w-full h-full flex justify-center mt-30">
+          <span className="text-black">
+            There are no budgets yet. Create the first one
+          </span>
+        </div>
+      ) : (
         <div className="flex gap-4">
           <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
             <div className="pl-10 pr-10">
@@ -44,20 +50,13 @@ export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
                   className="flex justify-between items-center border-l-2 pl-2 pr-2"
                 >
                   <span>{b.category}</span>
-                  <p>{b.maximum_spend}</p>
+                  <p>Some stuff here</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      ) : (
-        <div className="w-full h-full flex justify-center mt-30">
-          <span className="text-black">
-            There are no budgets yet. Create the first one
-          </span>
-        </div>
       )}
-      {/* Content */}
 
       <DefaultModal children={<NewBudgetForm />} />
       <WarningModal title="" description="" confirmText="" />
