@@ -4,6 +4,7 @@ import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
+import { BUDGETS_THEMES } from "../../shared/models";
 import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
 
 import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";
@@ -18,7 +19,6 @@ export const BudgetsPage = ({
   const openModal = useModalStore((state) => state.openModal);
 
   const { data: budgets = [] } = useGetBudgets(2);
-
   const limit = budgets.reduce((acc, { maximum_spend }) => {
     return (acc += Number(maximum_spend));
   }, 0);
@@ -53,10 +53,12 @@ export const BudgetsPage = ({
                 const roundedSpend = Math.abs(
                   Math.round(categorySpend(b.category)),
                 );
+                const border = BUDGETS_THEMES[b.theme];
                 return (
                   <div
                     key={b.budget_id}
-                    className="flex justify-between items-center border-l-2 pl-2 pr-2"
+                    className={`flex justify-between items-center border-l-5  pl-2 pr-2`}
+                    style={{ borderColor: border }}
                   >
                     <span>{b.category}</span>
                     <p>
