@@ -1,5 +1,8 @@
 import { DefaultPopup } from "../../../../shared/components/default-popup/default-popup";
+import { FormattedAmount } from "../../../../shared/components/formatted-amount";
 import { ProgressBar } from "../../../../shared/components/progress-bar/progress-bar";
+import { formatDate } from "../../../../shared/lib/formatDate";
+import { Avatar } from "../../../overview/components/overview-content/transactions/avatar";
 
 import type { BudgetCardProps } from "./models";
 
@@ -14,7 +17,7 @@ export const BudgetCard = ({
   const progress = Math.round((eachSpend * 100) / Number(maxSpend));
 
   return (
-    <div className="bg-white rounded-lg p-5 border">
+    <div className="bg-white rounded-lg p-5">
       {/* Title header */}
       <div className="flex justify-between items-center">
         {/* Title wrap */}
@@ -86,7 +89,31 @@ export const BudgetCard = ({
             }
           />
         </div>
+
         {/* Counterparties */}
+        <div className="flex flex-col gap-2">
+          {latest(category).map((cat) => (
+            <div
+              className="flex justify-between bg-inherit items-center border-gray-300 not-last:border-b pb-3 pt-3"
+              key={cat.transaction_id}
+            >
+              {/* Avatar wrap */}
+              <div className="flex gap-3 items-center">
+                <Avatar name={cat.counterparty} avatar_url={cat.avatar_url} />
+                <p className="text-sm font-bold text-black">
+                  {cat.counterparty}
+                </p>
+              </div>
+              {/* Spending info wrap */}
+              <div className="flex flex-col gap-2 items-end">
+                <FormattedAmount amount={cat.amount} />
+                <p className="text-gray-500 text-sm font-semibold">
+                  {formatDate({ date: cat.occurred_at })}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

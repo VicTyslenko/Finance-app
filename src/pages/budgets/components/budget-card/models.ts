@@ -2,7 +2,7 @@ import type { TransactionsResponse } from "../../../../entities/transactions/mod
 import type { Category } from "../../../../shared/models";
 
 export type BudgetCardProps = {
-  category: string;
+  category: Category;
   background: string;
   maxSpend: string;
   eachSpend: number;

@@ -22,6 +22,7 @@ export const BudgetsPage = ({
   latest: (cat: Category) => TransactionsResponse[];
 }) => {
   const openModal = useModalStore((state) => state.openModal);
+  
   const { data: budgets = [] } = useGetBudgets(2);
   const limit = budgets.reduce((acc, { maximum_spend }) => {
     return (acc += Number(maximum_spend));
@@ -45,8 +46,8 @@ export const BudgetsPage = ({
         </div>
       ) : (
         <div className="flex gap-4">
-          <div className="bg-white rounded-lg p-4 flex flex-2 flex-col  gap-4">
-            <div className="pl-10 pr-10">
+          <div className="bg-white rounded-lg p-4 flex flex-2 flex-col max-h-fit gap-4">
+            <div className="flex p-5">
               {<Chart totalSpend={totalSpend} limit={limit} />}
             </div>
 
@@ -72,7 +73,7 @@ export const BudgetsPage = ({
               })}
             </div>
           </div>
-          <div className="flex-3">
+          <div className="flex flex-col gap-6 flex-3">
             {budgets.map((b) => (
               <BudgetCard
                 key={b.budget_id}

@@ -1,4 +1,4 @@
-import type { BudgetTheme } from "../../shared/models";
+import type { BudgetTheme, Category } from "../../shared/models";
 
 export type CreateBudgetBody = {
   category: string;
@@ -13,7 +13,7 @@ export type Budget = {
 
 export type BudgetResponse = {
   budget_id: number;
-  category: string;
+  category: Category;
   maximum_spend: string;
   theme: BudgetTheme;
   createdAt: Date;
