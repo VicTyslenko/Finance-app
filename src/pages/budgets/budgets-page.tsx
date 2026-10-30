@@ -1,11 +1,12 @@
 import { useGetBudgets } from "../../entities/budgets/hooks";
+import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
 import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { roundNumber } from "../../shared/lib/round-number";
-import { BUDGETS_THEMES } from "../../shared/models";
+import { BUDGETS_THEMES, type Category } from "../../shared/models";
 import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
 
 import { BudgetCard } from "./components/budget-card/budget-card";
@@ -14,9 +15,11 @@ import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";
 export const BudgetsPage = ({
   totalSpend,
   categorySpend,
+  latest,
 }: {
   totalSpend: number;
   categorySpend: (cat: string) => number;
+  latest: (cat: Category) => TransactionsResponse[];
 }) => {
   const openModal = useModalStore((state) => state.openModal);
   const { data: budgets = [] } = useGetBudgets(2);
@@ -77,6 +80,7 @@ export const BudgetsPage = ({
                 background={b.theme}
                 maxSpend={b.maximum_spend}
                 eachSpend={roundNumber(categorySpend(b.category))}
+                latest={latest}
               />
             ))}
           </div>
