@@ -3,6 +3,7 @@ import { FormattedAmount } from "../../../../shared/components/formatted-amount"
 import { ProgressBar } from "../../../../shared/components/progress-bar/progress-bar";
 import { formatDate } from "../../../../shared/lib/formatDate";
 import { Avatar } from "../../../overview/components/overview-content/transactions/avatar";
+import { BudgetPopupActions } from "../budget-popup-actions";
 
 import type { BudgetCardProps } from "./models";
 
@@ -12,6 +13,7 @@ export const BudgetCard = ({
   maxSpend,
   eachSpend,
   latest,
+  cardId,
 }: BudgetCardProps) => {
   const remaining = Number(maxSpend) - eachSpend;
   const progress = Math.round((eachSpend * 100) / Number(maxSpend));
@@ -30,15 +32,20 @@ export const BudgetCard = ({
         </div>
         <DefaultPopup
           triggerEl={
-            <>
-              <button>Clck here</button>
-            </>
+            <button
+              type="button"
+              aria-label="Budget button"
+              className="cursor-pointer p-1"
+              onClick={() => console.log("card id", cardId)}
+            >
+              <img
+                src="assets/images/icon-ellipsis.svg"
+                alt="three dots actions"
+                className="rotate-x-180"
+              />
+            </button>
           }
-          popupContent={
-            <>
-              <div>Some content</div>
-            </>
-          }
+          popupContent={<BudgetPopupActions />}
         />
       </div>
       <p className="text-gray-500 mb-4">Maximum of ${maxSpend}</p>

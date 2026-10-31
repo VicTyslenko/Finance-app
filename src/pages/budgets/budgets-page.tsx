@@ -2,7 +2,10 @@ import { useGetBudgets } from "../../entities/budgets/hooks";
 import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
-import { useModalStore } from "../../shared/components/modals/modals-store";
+import {
+  useModalStore,
+  useWarnModalStore,
+} from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { roundNumber } from "../../shared/lib/round-number";
@@ -22,7 +25,8 @@ export const BudgetsPage = ({
   latest: (cat: Category) => TransactionsResponse[];
 }) => {
   const openModal = useModalStore((state) => state.openModal);
-  
+  const isWarningOpen = useWarnModalStore((state) => state.isOpen);
+
   const { data: budgets = [] } = useGetBudgets(2);
   const limit = budgets.reduce((acc, { maximum_spend }) => {
     return (acc += Number(maximum_spend));
@@ -82,6 +86,7 @@ export const BudgetsPage = ({
                 maxSpend={b.maximum_spend}
                 eachSpend={roundNumber(categorySpend(b.category))}
                 latest={latest}
+                cardId={b.budget_id}
               />
             ))}
           </div>
@@ -89,7 +94,15 @@ export const BudgetsPage = ({
       )}
 
       <DefaultModal children={<NewBudgetForm />} />
-      <WarningModal title="" description="" confirmText="" />
+
+      {isWarningOpen && (
+        <WarningModal
+          action={() => console.log("Approve")}
+          title="Delete Entertainment?"
+          description="Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever."
+          confirmText="Yes, Confirm Deletion"
+        />
+      )}
     </div>
   );
 };

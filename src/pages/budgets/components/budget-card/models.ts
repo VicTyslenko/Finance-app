@@ -7,4 +7,5 @@ export type BudgetCardProps = {
   maxSpend: string;
   eachSpend: number;
   latest: (cat: Category) => TransactionsResponse[];
+  cardId: number;
 };

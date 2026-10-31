@@ -68,8 +68,9 @@ export const DefaultPopup = ({
       {open && (
         <div
           ref={popupRef}
-          className={`fixed border p-2 z-50 rounded-md bg-white shadow`}
+          className={`fixed p-2.5 z-50 rounded-md bg-white shadow-md border border-gray-200`}
           style={pos ?? { visibility: "hidden" }}
+          onClick={() => setOpen(false)}
         >
           {popupContent}
         </div>
