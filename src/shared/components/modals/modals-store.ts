@@ -1,15 +1,19 @@
 import { create } from "zustand";
 
-type Props = {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-};
+export type FormMode = "new" | "edit";
 
-export const useModalStore = create<Props>((set) => ({
+interface ModalProps {
+  isOpen: boolean;
+  openModal: (mode?: FormMode) => void;
+  closeModal: () => void;
+  formMode: FormMode;
+}
+
+export const useModalStore = create<ModalProps>((set) => ({
   isOpen: false,
-  openModal: () => set({ isOpen: true }),
+  openModal: (mode) => set({ isOpen: true, formMode: mode }),
   closeModal: () => set({ isOpen: false }),
+  formMode: "new",
 }));
 
 type WarnModalProps = {

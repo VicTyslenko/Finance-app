@@ -1,4 +1,7 @@
-import { useWarnModalStore } from "../../../shared/components/modals/modals-store";
+import {
+  useModalStore,
+  useWarnModalStore,
+} from "../../../shared/components/modals/modals-store";
 
 const popupItemData = [
   { id: 1, text: "Edit Budget", color: "text-black", action: "edit" },
@@ -7,7 +10,7 @@ const popupItemData = [
 
 export const BudgetPopupActions = () => {
   const openWarnModal = useWarnModalStore((state) => state.openWarnModal);
-
+  const openModal = useModalStore((state) => state.openModal);
   return (
     <div className="flex flex-col gap-2">
       {popupItemData.map((i) => (
@@ -17,6 +20,9 @@ export const BudgetPopupActions = () => {
           onClick={() => {
             if (i.action === "delete") {
               openWarnModal();
+            }
+            if (i.action === "edit") {
+              openModal("edit");
             }
           }}
         >

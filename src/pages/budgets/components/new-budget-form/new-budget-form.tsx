@@ -8,13 +8,14 @@ import { DropdownItem } from "../../../../shared/components/dropdown/dropdown-it
 import { DefaultInput } from "../../../../shared/components/form/default-input";
 import { FormLabel } from "../../../../shared/components/form/form-label";
 import { useModalStore } from "../../../../shared/components/modals/modals-store";
+import type { FormMode } from "../../../../shared/components/modals/modals-store";
 import { parseErrorMessage } from "../../lib";
 import { budgetCategory } from "../../models";
 
 import { budgetThemes, DEFAULT_THEME, defaultValues } from "./data";
 import type { Body } from "./validation";
 
-export const NewBudgetForm = () => {
+export const NewBudgetForm = ({ mode }: { mode: FormMode }) => {
   const { register, handleSubmit, watch, setValue } = useForm<Body>({
     defaultValues,
   });
@@ -40,14 +41,17 @@ export const NewBudgetForm = () => {
       {/* Header */}
 
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Add New Budget</h1>
+        <h1 className="text-3xl font-bold">
+          {mode === "new" ? "Add New Budget" : "Edit Budget"}
+        </h1>
 
         <CloseButton onClose={closeModal} />
       </div>
       {/* Description */}
       <p className="text-gray-600 text-sm">
-        Choose a category to set a spending budget. These categories can help
-        you monitor spending .
+        {mode === "new"
+          ? "Choose a category to set a spending budget. These categories can help yo monitor spending."
+          : "As your budgets change, feel free to update your spending limits."}
       </p>
 
       {/* Form */}

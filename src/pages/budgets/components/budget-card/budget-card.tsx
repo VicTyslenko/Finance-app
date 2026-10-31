@@ -13,7 +13,7 @@ export const BudgetCard = ({
   maxSpend,
   eachSpend,
   latest,
-  cardId,
+  onDelete,
 }: BudgetCardProps) => {
   const remaining = Number(maxSpend) - eachSpend;
   const progress = Math.round((eachSpend * 100) / Number(maxSpend));
@@ -36,7 +36,7 @@ export const BudgetCard = ({
               type="button"
               aria-label="Budget button"
               className="cursor-pointer p-1"
-              onClick={() => console.log("card id", cardId)}
+              onClick={onDelete}
             >
               <img
                 src="assets/images/icon-ellipsis.svg"

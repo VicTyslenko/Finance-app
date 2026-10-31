@@ -16,3 +16,13 @@ export const createBudget = async ({
   const data = await api.post<BudgetResponse>(budgetPaths.create(id), {}, body);
   return data;
 };
+
+export const deleteBudget = async ({
+  budgetId,
+  userId,
+}: {
+  budgetId: number;
+  userId: number;
+}) => {
+  await api.delete(budgetPaths.delete(budgetId, userId));
+};
