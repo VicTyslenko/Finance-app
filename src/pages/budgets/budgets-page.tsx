@@ -31,7 +31,6 @@ export const BudgetsPage = ({
     setSelectedId,
     handleConfirmDelete,
   } = useBudgetsPage();
-
   return (
     <div>
       {/* Header */}
@@ -50,7 +49,7 @@ export const BudgetsPage = ({
         </div>
       ) : (
         <div className="flex gap-4">
-          <div className="bg-white rounded-lg p-4 flex flex-2 flex-col max-h-fit gap-4">
+          <div className="bg-white rounded-lg p-8 flex flex-2 flex-col max-h-fit gap-4">
             <div className="flex p-5">
               {<Chart totalSpend={totalSpend} limit={limit} />}
             </div>
@@ -65,13 +64,24 @@ export const BudgetsPage = ({
                 return (
                   <div
                     key={b.budget_id}
-                    className={`flex justify-between items-center border-l-5  pl-2 pr-2`}
-                    style={{ borderColor: border }}
+                    className={`flex justify-between items-center not-last:border-b not-last:border-b-gray-200 pb-2`}
                   >
-                    <span>{b.category}</span>
-                    <p>
-                      ${roundedValue} of {b.maximum_spend}
-                    </p>
+                    <div className="flex gap-4 items-center">
+                      <div
+                        className="rounded-full w-1 h-5"
+                        style={{ backgroundColor: border }}
+                      />
+                      <span>{b.category}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-black text-md font-bold">
+                        ${roundedValue}
+                      </span>
+                      <span className="text-sm text-gray-700">of</span>
+                      <span className="text-sm text-gray-700">
+                        ${b.maximum_spend}
+                      </span>
+                    </div>
                   </div>
                 );
               })}

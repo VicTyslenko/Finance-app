@@ -1,3 +1,5 @@
+import { useSearchParams } from "react-router";
+
 import { DefaultPopup } from "../../../../shared/components/default-popup/default-popup";
 import { FormattedAmount } from "../../../../shared/components/formatted-amount";
 import { ProgressBar } from "../../../../shared/components/progress-bar/progress-bar";
@@ -15,8 +17,14 @@ export const BudgetCard = ({
   latest,
   onDelete,
 }: BudgetCardProps) => {
+  const [_, setSearchParams] = useSearchParams();
   const remaining = Number(maxSpend) - eachSpend;
   const progress = Math.round((eachSpend * 100) / Number(maxSpend));
+
+  const handleSeeAll = () => {
+    setSearchParams({ page: "transactions", category, step: "1" });
+  };
+
   return (
     <div className="bg-white rounded-lg p-5">
       {/* Title header */}
@@ -79,21 +87,13 @@ export const BudgetCard = ({
       <div className="mt-4 bg-[#f8f4f0] p-5 rounded-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-black text-md font-bold">Latest Spending</h2>
-          <DefaultPopup
-            triggerEl={
-              <>
-                <div className="flex gap-3 items-center">
-                  <span className="text-gray-500 text-sm">See all</span>
-                  <img src="/assets/images/icon-caret-right.svg" alt="" />
-                </div>
-              </>
-            }
-            popupContent={
-              <>
-                <div>Content</div>
-              </>
-            }
-          />
+          <button
+            onClick={handleSeeAll}
+            className="flex gap-3 items-center cursor-pointer"
+          >
+            <span className="text-gray-500 text-sm">See all</span>
+            <img src="/assets/images/icon-caret-right.svg" alt="" />
+          </button>
         </div>
 
         {/* Counterparties */}
