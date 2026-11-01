@@ -6,4 +6,4 @@ export const validationSchema = z.object({
   theme: z.string(),
 });
 
-export type Body = z.infer<typeof validationSchema>;
+export type BudgetValidationBody = z.infer<typeof validationSchema>;

@@ -8,7 +8,7 @@ export type CreateBudgetBody = {
 
 export type Budget = {
   body: CreateBudgetBody;
-  id: number;
+  userId: number;
 };
 
 export type BudgetResponse = {
@@ -18,3 +18,7 @@ export type BudgetResponse = {
   theme: BudgetTheme;
   createdAt: Date;
 };
+
+export interface UpdateBudget extends Budget {
+  budgetId: number;
+}

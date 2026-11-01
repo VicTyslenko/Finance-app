@@ -1,16 +1,6 @@
-import { useState } from "react";
-
-import { toast } from "react-toastify";
-
-import { useGetBudgets } from "../../entities/budgets/hooks";
-import { useDeleteBudget } from "../../entities/budgets/hooks";
 import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
-import {
-  useModalStore,
-  useWarnModalStore,
-} from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { roundNumber } from "../../shared/lib/round-number";
@@ -19,6 +9,7 @@ import { Chart } from "../overview/components/overview-content/budgets/chart/cha
 
 import { BudgetCard } from "./components/budget-card/budget-card";
 import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";
+import { useBudgetsPage } from "./hooks";
 
 export const BudgetsPage = ({
   totalSpend,
@@ -29,41 +20,17 @@ export const BudgetsPage = ({
   categorySpend: (cat: string) => number;
   latest: (cat: Category) => TransactionsResponse[];
 }) => {
-  const openModal = useModalStore((state) => state.openModal);
-  const isModalOpen = useModalStore((state) => state.isOpen);
-  const closeWarningModal = useWarnModalStore((state) => state.closeWarnModal);
-  const isWarningOpen = useWarnModalStore((state) => state.isOpen);
-
-  const formMode = useModalStore((state) => state.formMode);
-
-  const [selectedBudget, setSelectedBudget] = useState<{
-    category: string;
-    budgetId: number;
-  } | null>(null);
-
-  const { mutate: deleteBudget } = useDeleteBudget();
-
-  const { data: budgets = [] } = useGetBudgets(2);
-  const limit = budgets.reduce((acc, { maximum_spend }) => {
-    return (acc += Number(maximum_spend));
-  }, 0);
-
-  const handleConfirmDelete = () => {
-    if (selectedBudget?.budgetId === undefined) return;
-
-    deleteBudget(
-      { budgetId: selectedBudget.budgetId, userId: 2 },
-      {
-        onSuccess: () => {
-          (setSelectedBudget(null), closeWarningModal());
-          toast.success("Budget deleted!");
-        },
-        onError: () => {
-          toast.error("Couldn't delete the budget");
-        },
-      },
-    );
-  };
+  const {
+    openModal,
+    budgets,
+    isModalOpen,
+    isWarningOpen,
+    limit,
+    formMode,
+    selectedBudget,
+    setSelectedId,
+    handleConfirmDelete,
+  } = useBudgetsPage();
 
   return (
     <div>
@@ -119,19 +86,18 @@ export const BudgetsPage = ({
                 maxSpend={b.maximum_spend}
                 eachSpend={roundNumber(categorySpend(b.category))}
                 latest={latest}
-                onDelete={() =>
-                  setSelectedBudget({
-                    category: b.category,
-                    budgetId: b.budget_id,
-                  })
-                }
+                onDelete={() => setSelectedId(b.budget_id)}
               />
             ))}
           </div>
         </div>
       )}
       {isModalOpen && (
-        <DefaultModal children={<NewBudgetForm mode={formMode} />} />
+        <DefaultModal
+          children={
+            <NewBudgetForm mode={formMode} selectedBudget={selectedBudget} />
+          }
+        />
       )}
 
       {isWarningOpen && (
