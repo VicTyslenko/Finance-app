@@ -7,3 +7,4 @@ export const NAV_TABS = {
 } as const;
 
 export type NavTab = (typeof NAV_TABS)[keyof typeof NAV_TABS];
+

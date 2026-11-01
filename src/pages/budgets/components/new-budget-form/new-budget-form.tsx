@@ -1,53 +1,44 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
-
-import { useBudgetCreate } from "../../../../entities/budgets/hooks";
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
 import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
 import { DefaultDropdown } from "../../../../shared/components/dropdown/default-dropdown";
 import { DropdownItem } from "../../../../shared/components/dropdown/dropdown-item";
 import { DefaultInput } from "../../../../shared/components/form/default-input";
 import { FormLabel } from "../../../../shared/components/form/form-label";
-import { useModalStore } from "../../../../shared/components/modals/modals-store";
-import { parseErrorMessage } from "../../lib";
 import { budgetCategory } from "../../models";
 
-import { budgetThemes, DEFAULT_THEME, defaultValues } from "./data";
-import type { Body } from "./validation";
+import { budgetThemes } from "./data";
+import { useBudgetForm } from "./hooks";
+import { type BudgetFormProps } from "./models";
 
-export const NewBudgetForm = () => {
-  const { register, handleSubmit, watch, setValue } = useForm<Body>({
-    defaultValues,
-  });
-
-  const closeModal = useModalStore((state) => state.closeModal);
-
-  const { mutate: createBudget, error } = useBudgetCreate();
-
-  const onSubmit: SubmitHandler<Body> = async (values) => {
-    setValue("maximum_spend", "");
-    createBudget({ id: 2, body: values }, { onSuccess: () => closeModal() });
-  };
-
-  const category = watch("category") || budgetCategory.ENTERTAINMENT;
-  const theme = watch("theme") || DEFAULT_THEME.name;
-  const currentColor =
-    budgetThemes.find((o) => o.name === theme)?.value ?? DEFAULT_THEME.value;
-
-  const errorMessage = parseErrorMessage(error);
+export const NewBudgetForm = ({ mode, selectedBudget }: BudgetFormProps) => {
+  const {
+    closeModal,
+    category,
+    currentColor,
+    errorMessage,
+    onSubmit,
+    register,
+    handleSubmit,
+    setValue,
+    theme,
+  } = useBudgetForm({ mode, selectedBudget });
 
   return (
     <div className="flex flex-col gap-3 w-125">
       {/* Header */}
 
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Add New Budget</h1>
+        <h1 className="text-3xl font-bold">
+          {mode === "new" ? "Add New Budget" : "Edit Budget"}
+        </h1>
 
         <CloseButton onClose={closeModal} />
       </div>
       {/* Description */}
       <p className="text-gray-600 text-sm">
-        Choose a category to set a spending budget. These categories can help
-        you monitor spending .
+        {mode === "new"
+          ? "Choose a category to set a spending budget. These categories can help yo monitor spending."
+          : "As your budgets change, feel free to update your spending limits."}
       </p>
 
       {/* Form */}
@@ -106,7 +97,7 @@ export const NewBudgetForm = () => {
           type="submit"
           className="bg-black text-white text-sm p-3 cursor-pointer font-bold rounded-md"
         >
-          Add Budget
+          {mode === "new" ? "Add Budget" : "Save Changes"}
         </DefaultButton>
       </form>
     </div>

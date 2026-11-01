@@ -1,43 +1,59 @@
+import { useEffect } from "react";
+
+import { CloseButton } from "../buttons/close-button";
 import { DefaultButton } from "../buttons/default-button/default-button";
 
 import { useWarnModalStore } from "./modals-store";
 
-type Props = {
+type WarningModalProps = {
   children?: React.ReactNode;
   description: string;
   title: string;
   confirmText: string;
+  action: () => void;
 };
 
-export const WarningModal = ({ confirmText, description, title }: Props) => {
+export const WarningModal = ({
+  confirmText,
+  description,
+  title,
+  action,
+}: WarningModalProps) => {
   const closeModal = useWarnModalStore((state) => state.closeWarnModal);
   const isOpen = useWarnModalStore((state) => state.isOpen);
 
-  if (!isOpen) return;
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (!isOpen) return;
+      if (e.key === "Escape") closeModal();
+    };
+    document.addEventListener("keydown", handleEscape);
+
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, closeModal]);
 
   return (
     <div
-      onMouseDown={closeModal}
-      className="fixed inline-0 flex items-center justify-center"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) closeModal();
+      }}
+      className="fixed flex items-center justify-center inset-0 z-50 bg-black/50"
     >
       {/* Modal content */}
-      <div
-        onMouseDown={(e) => {
-          if (e.target === e.currentTarget) return;
-        }}
-        className="border rounded-md bg-white p-4"
-      >
-        {/* Title */}
-        <div className="flex justify-between items-center mb-3">
-          <p className="font-bold text-3xl text-black">{title}</p>
-          <img src="/assets/icons/icon-close-modal.svg" alt="close modal" />
+      <div className="bg-white rounded-lg p-6 max-w-135 flex flex-col gap-5">
+        <div className="flex justify-between items-center">
+          <h1 className="text-black text-xl font-bold">{title}</h1>
+          <CloseButton onClose={closeModal} />
         </div>
+
         {/* Description */}
-        <p className="text-gray-700 text-sm mb-3">{description}</p>
-        <DefaultButton className="mb-4" variant="danger">
+        <p className="text-gray-500 text-sm">{description}</p>
+        <DefaultButton onClick={action} variant="danger">
           {confirmText}
         </DefaultButton>
-        <DefaultButton variant="transparent">No, Go Back</DefaultButton>
+        <DefaultButton onClick={closeModal} variant="transparent">
+          No, Go Back
+        </DefaultButton>
       </div>
     </div>
   );

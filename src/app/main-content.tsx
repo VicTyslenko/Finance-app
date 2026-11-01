@@ -5,6 +5,7 @@ import { BudgetsPage } from "../pages/budgets/budgets-page";
 import { OverviewPage } from "../pages/overview/overview-page";
 import { TransactionsPage } from "../pages/transactions/transactions-page";
 import { NAV_TABS } from "../shared/data";
+import type { Category } from "../shared/models";
 
 export const MainContent = () => {
   const [searchParams] = useSearchParams();
@@ -12,11 +13,22 @@ export const MainContent = () => {
 
   const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
 
+  const getLatestTransactions = (cat: Category) =>
+    transactions
+      .filter((t) => t.category === cat)
+      .sort((a, b) => Date.parse(b.occurred_at) - Date.parse(a.occurred_at))
+      .slice(0, 3);
+
   const totalSpend = transactions.reduce(
     (acc, { amount }): number => Math.round(acc + amount),
     0,
   );
-  
+
+  const categorySpend = (cat: string) =>
+    transactions
+      .filter((t) => t.category === cat)
+      ?.reduce((acc, cat) => acc + Number(cat.amount), 0);
+
   return (
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && <OverviewPage />}
@@ -24,7 +36,12 @@ export const MainContent = () => {
         <TransactionsPage data={transactions} />
       )}
       {currentPage === NAV_TABS.BUDGETS && (
-        <BudgetsPage totalSpend={totalSpend} />
+        <BudgetsPage
+          totalSpend={totalSpend}
+          categorySpend={categorySpend}
+          // latest={getLatestTransactions}
+          latest={getLatestTransactions}
+        />
       )}
     </div>
   );

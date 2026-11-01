@@ -1,30 +1,43 @@
-import { useGetBudgets } from "../../entities/budgets/hooks";
+import type { TransactionsResponse } from "../../entities/transactions/models";
 import { DefaultButton } from "../../shared/components/buttons/default-button/default-button";
-import { DefaultPopup } from "../../shared/components/default-popup/default-popup";
 import { DefaultModal } from "../../shared/components/modals/default-modal";
-import { useModalStore } from "../../shared/components/modals/modals-store";
 import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
+import { roundNumber } from "../../shared/lib/round-number";
+import { BUDGETS_THEMES, type Category } from "../../shared/models";
 import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
 
-import { NewBudgetForm } from "./extensions/new-budget-form/new-budget-form";
+import { BudgetCard } from "./components/budget-card/budget-card";
+import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";
+import { useBudgetsPage } from "./hooks";
 
-export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
-  const openModal = useModalStore((state) => state.openModal);
-
-  const { data: budgets = [] } = useGetBudgets(2);
-
-  const limit = budgets.reduce((acc, { maximum_spend }) => {
-    return (acc += Number(maximum_spend));
-  }, 0);
-
+export const BudgetsPage = ({
+  totalSpend,
+  categorySpend,
+  latest,
+}: {
+  totalSpend: number;
+  categorySpend: (cat: string) => number;
+  latest: (cat: Category) => TransactionsResponse[];
+}) => {
+  const {
+    openModal,
+    budgets,
+    isModalOpen,
+    isWarningOpen,
+    limit,
+    formMode,
+    selectedBudget,
+    setSelectedId,
+    handleConfirmDelete,
+  } = useBudgetsPage();
   return (
     <div>
       {/* Header */}
       <div className="flex justify-between items-center">
         <PagesHeader title="Budgets" />
 
-        <DefaultButton onClick={openModal} variant="secondary">
+        <DefaultButton onClick={() => openModal("new")} variant="secondary">
           + Add New Budget
         </DefaultButton>
       </div>
@@ -36,30 +49,75 @@ export const BudgetsPage = ({ totalSpend }: { totalSpend: number }) => {
         </div>
       ) : (
         <div className="flex gap-4">
-          <div className="bg-white rounded-lg p-4 flex flex-col  gap-4">
-            <div className="pl-10 pr-10">
+          <div className="bg-white rounded-lg p-8 flex flex-2 flex-col max-h-fit gap-4">
+            <div className="flex p-5">
               {<Chart totalSpend={totalSpend} limit={limit} />}
             </div>
 
             {/* Summary */}
             <div className="flex flex-col gap-3">
               <h2 className="text-black text-lg font-bold">Spending Summary</h2>
-              {budgets.map((b) => (
-                <div
-                  key={b.budget_id}
-                  className="flex justify-between items-center border-l-2 pl-2 pr-2"
-                >
-                  <span>{b.category}</span>
-                  <p>Some stuff here</p>
-                </div>
-              ))}
+              {budgets.map((b) => {
+                const roundedValue = roundNumber(categorySpend(b.category));
+
+                const border = BUDGETS_THEMES[b.theme];
+                return (
+                  <div
+                    key={b.budget_id}
+                    className={`flex justify-between items-center not-last:border-b not-last:border-b-gray-200 pb-2`}
+                  >
+                    <div className="flex gap-4 items-center">
+                      <div
+                        className="rounded-full w-1 h-5"
+                        style={{ backgroundColor: border }}
+                      />
+                      <span>{b.category}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-black text-md font-bold">
+                        ${roundedValue}
+                      </span>
+                      <span className="text-sm text-gray-700">of</span>
+                      <span className="text-sm text-gray-700">
+                        ${b.maximum_spend}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </div>
+          <div className="flex flex-col gap-6 flex-3">
+            {budgets.map((b) => (
+              <BudgetCard
+                key={b.budget_id}
+                category={b.category}
+                background={b.theme}
+                maxSpend={b.maximum_spend}
+                eachSpend={roundNumber(categorySpend(b.category))}
+                latest={latest}
+                onDelete={() => setSelectedId(b.budget_id)}
+              />
+            ))}
           </div>
         </div>
       )}
+      {isModalOpen && (
+        <DefaultModal
+          children={
+            <NewBudgetForm mode={formMode} selectedBudget={selectedBudget} />
+          }
+        />
+      )}
 
-      <DefaultModal children={<NewBudgetForm />} />
-      <WarningModal title="" description="" confirmText="" />
+      {isWarningOpen && (
+        <WarningModal
+          action={handleConfirmDelete}
+          title="Delete Entertainment?"
+          description="Are you sure you want to delete this budget? This action cannot be reversed, and all the data inside it will be removed forever."
+          confirmText="Yes, Confirm Deletion"
+        />
+      )}
     </div>
   );
 };

@@ -1,7 +1,12 @@
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
-import { createBudget, getBudgets } from "./api/budgets";
-import type { Budget } from "./models";
+import {
+  createBudget,
+  deleteBudget,
+  getBudgets,
+  updateBudget,
+} from "./api/budgets";
+import type { Budget, UpdateBudget } from "./models";
 
 export const useGetBudgets = (id: number) => {
   return useQuery({
@@ -13,7 +18,31 @@ export const useGetBudgets = (id: number) => {
 export const useBudgetCreate = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, body }: Budget) => createBudget({ id, body }),
+    mutationFn: ({ userId, body }: Budget) => createBudget({ userId, body }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["budgets"] });
+    },
+  });
+};
+
+export const useDeleteBudget = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ budgetId, userId }: { budgetId: number; userId: number }) =>
+      deleteBudget({ budgetId, userId }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["budgets"] });
+    },
+  });
+};
+
+export const useUpdateBudget = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, body, budgetId }: UpdateBudget) =>
+      updateBudget({ userId, budgetId, body }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["budgets"] });
     },
