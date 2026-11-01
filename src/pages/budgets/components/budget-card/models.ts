@@ -1,9 +1,9 @@
 import type { TransactionsResponse } from "../../../../entities/transactions/models";
-import type { Category } from "../../../../shared/models";
+import type { BudgetTheme, Category } from "../../../../shared/models";
 
 export type BudgetCardProps = {
   category: Category;
-  background: string;
+  background: BudgetTheme;
   maxSpend: string;
   eachSpend: number;
   latest: (cat: Category) => TransactionsResponse[];

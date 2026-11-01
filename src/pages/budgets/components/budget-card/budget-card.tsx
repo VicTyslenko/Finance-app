@@ -17,7 +17,6 @@ export const BudgetCard = ({
 }: BudgetCardProps) => {
   const remaining = Number(maxSpend) - eachSpend;
   const progress = Math.round((eachSpend * 100) / Number(maxSpend));
-
   return (
     <div className="bg-white rounded-lg p-5">
       {/* Title header */}
@@ -50,7 +49,7 @@ export const BudgetCard = ({
       </div>
       <p className="text-gray-500 mb-4">Maximum of ${maxSpend}</p>
       {/* Progress bar  */}
-      <ProgressBar progress={progress} />
+      <ProgressBar progress={progress} theme={background} />
 
       {/* Numbers info */}
       <div className="bg-inherit flex items-center mt-4">
