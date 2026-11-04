@@ -8,7 +8,6 @@ import { Avatar } from "../../../overview/components/overview-content/transactio
 import { PopupActions } from "../../../shared/popup-actions";
 
 import { budgetsPopupData } from "./data";
-import { useBudgetCard } from "./hooks";
 import type { BudgetCardProps } from "./models";
 
 export const BudgetCard = ({
@@ -26,8 +25,6 @@ export const BudgetCard = ({
   const handleSeeAll = () => {
     setSearchParams({ page: "transactions", category, step: "1" });
   };
-
-  const { handleClick } = useBudgetCard();
 
   return (
     <div className="bg-white rounded-lg p-5">
@@ -56,9 +53,7 @@ export const BudgetCard = ({
               />
             </button>
           }
-          popupContent={
-            <PopupActions data={budgetsPopupData} handleClick={handleClick} />
-          }
+          popupContent={<PopupActions data={budgetsPopupData} />}
         />
       </div>
       <p className="text-gray-500 mb-4">Maximum of ${maxSpend}</p>
