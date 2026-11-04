@@ -32,7 +32,7 @@ export const BudgetsPage = ({
     handleConfirmDelete,
   } = useBudgetsPage();
   return (
-    <div>
+    <>
       {/* Header */}
       <div className="flex justify-between items-center">
         <PagesHeader title="Budgets" />
@@ -118,6 +118,6 @@ export const BudgetsPage = ({
           confirmText="Yes, Confirm Deletion"
         />
       )}
-    </div>
+    </>
   );
 };
