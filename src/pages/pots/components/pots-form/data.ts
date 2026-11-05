@@ -19,7 +19,6 @@ export const DEFAULT_POT_THEME = potThemes[0];
 
 export const defaultPotsValues = {
   potName: "",
-  target: "",
+  target: 1,
   theme: DEFAULT_POT_THEME.name,
 };
-

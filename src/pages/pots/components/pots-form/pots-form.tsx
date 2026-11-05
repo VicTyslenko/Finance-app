@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
+import { useCreatePot } from "../../../../entities/pots/hooks";
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
 import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
 import { DefaultDropdown } from "../../../../shared/components/dropdown/default-dropdown";
@@ -23,9 +25,10 @@ export const NewPotsForm = ({
   const { handleSubmit, register, setValue, watch } =
     useForm<PotsValidationBody>({
       defaultValues: defaultPotsValues,
-      resolver: zodResolver(validationPotSchema),
+      // resolver: zodResolver(validationPotSchema),
     });
 
+  const { mutate: createPot } = useCreatePot();
   const closeModal = useModalStore((state) => state.closeModal);
 
   const theme = watch("theme") || DEFAULT_POT_THEME.name;
@@ -34,7 +37,15 @@ export const NewPotsForm = ({
     potThemes.find((p) => p.name === theme)?.value ?? DEFAULT_POT_THEME.value;
 
   const onSubmit = (values: PotsValidationBody) => {
-    console.log(values);
+    createPot(
+      { user_id: 2, body: values },
+      {
+        onSuccess: () => {
+          toast.success("Pot created!");
+          closeModal();
+        },
+      },
+    );
   };
   return (
     <div className="flex flex-col gap-3 w-125">
@@ -51,7 +62,7 @@ export const NewPotsForm = ({
       <p className="text-gray-600 text-sm">
         {mode === "new"
           ? "Create a pot to set savings targets. These can help keep you on track as you save for special purchases."
-          : "As your budgets change, feel free to update your spending limits."}
+          : "If your saving targets change, feel free to update your pots."}
       </p>
 
       {/* Form */}
@@ -59,7 +70,7 @@ export const NewPotsForm = ({
         {/* Pot name */}
         <div>
           <FormLabel text="Pot Name" />
-          <DefaultInput {...register("potName")} placeholder="$  e.g.2000" />
+          <DefaultInput {...register("name")} placeholder="$  e.g.Rainy Days" />
         </div>
 
         {/* Maximum spend */}
