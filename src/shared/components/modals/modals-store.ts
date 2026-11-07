@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type FormMode = "new" | "edit";
+export type FormMode = "new" | "edit" | "add money" | "withdraw";
 
 interface ModalProps {
   isOpen: boolean;

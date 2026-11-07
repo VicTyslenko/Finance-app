@@ -14,3 +14,13 @@ export const createPot = async ({
   const data = await api.post<PotResponse>(potsPaths.create(user_id), {}, body);
   return data;
 };
+
+export const deletePot = async ({
+  user_id,
+  pot_id,
+}: {
+  user_id: number;
+  pot_id: number;
+}) => {
+  await api.delete(potsPaths.delete(pot_id, user_id));
+};

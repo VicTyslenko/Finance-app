@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { useCreatePot } from "../../../../entities/pots/hooks";
+import type { PotResponse } from "../../../../entities/pots/models";
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
 import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
 import { DefaultDropdown } from "../../../../shared/components/dropdown/default-dropdown";
@@ -10,24 +10,29 @@ import { DropdownItem } from "../../../../shared/components/dropdown/dropdown-it
 import { DefaultInput } from "../../../../shared/components/form/default-input";
 import { FormLabel } from "../../../../shared/components/form/form-label";
 import { useModalStore } from "../../../../shared/components/modals/modals-store";
-import type { FormMode } from "../../../../shared/components/modals/modals-store";
 
 import { DEFAULT_POT_THEME, defaultPotsValues, potThemes } from "./data";
-import { validationPotSchema, type PotsValidationBody } from "./validation";
+import { type PotsValidationBody } from "./validation";
 
 export const NewPotsForm = ({
-  mode,
   selectedPot,
 }: {
-  mode: FormMode;
-  selectedPot: string;
+  selectedPot: PotResponse | null;
 }) => {
+  const mode = useModalStore((state) => state.formMode);
+
+  const pickedValues: PotsValidationBody = {
+    name: selectedPot?.name ?? "",
+    target: selectedPot?.target ?? 1,
+    theme: selectedPot?.theme ?? "",
+  };
+
+  console.log(pickedValues);
   const { handleSubmit, register, setValue, watch } =
     useForm<PotsValidationBody>({
-      defaultValues: defaultPotsValues,
+      defaultValues: mode === "new" ? defaultPotsValues : pickedValues,
       // resolver: zodResolver(validationPotSchema),
     });
-
   const { mutate: createPot } = useCreatePot();
   const closeModal = useModalStore((state) => state.closeModal);
 

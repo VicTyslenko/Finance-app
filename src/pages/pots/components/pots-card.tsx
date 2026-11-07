@@ -1,17 +1,32 @@
 import { DefaultPopup } from "../../../shared/components/default-popup/default-popup";
+import { useModalStore } from "../../../shared/components/modals/modals-store";
+import { ProgressBar } from "../../../shared/components/progress-bar/progress-bar";
 import { PopupActions } from "../../shared/popup-actions";
-import { potsPopupData } from "../data";
+import { BUTTONS_CLASS, potsPopupData } from "../data";
+import type { PotsCardProps } from "../models";
 
-type PotsCardProps = {
-  title: string;
-  total: number;
-};
-export const PotsCard = ({ title, total }: PotsCardProps) => {
+import { potThemes, DEFAULT_POT_THEME } from "./pots-form/data";
+
+export const PotsCard = ({
+  title,
+  total,
+  theme,
+  target,
+  setId,
+}: PotsCardProps) => {
+  const openModal = useModalStore((state) => state.openModal);
+
+  const searchedTheme =
+    potThemes.find((t) => t.name === theme)?.value || DEFAULT_POT_THEME.value;
+
   return (
     <div className="bg-white rounded-lg p-5 min-w-130">
       <div className="flex justify-between items-center mb-10">
         <div className="flex gap-3">
-          <span className="w-4 h-4 bg-green-800 rounded-full" />
+          <span
+            className="w-4 h-4 bg-green-800 rounded-full"
+            style={{ backgroundColor: searchedTheme }}
+          />
           <p className="text-black text-md font-semibold">{title}</p>
         </div>
         <DefaultPopup
@@ -20,7 +35,7 @@ export const PotsCard = ({ title, total }: PotsCardProps) => {
               type="button"
               aria-label="Budget button"
               className="cursor-pointer p-1"
-              // onClick={onDelete}
+              onClick={setId}
             >
               <img
                 src="assets/images/icon-ellipsis.svg"
@@ -33,9 +48,34 @@ export const PotsCard = ({ title, total }: PotsCardProps) => {
         />
       </div>
       {/* Total saved */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-5">
         <h2 className="text-sm text-gray-500 font-semibold">Total Saved</h2>
         <p className="text-3xl text-black font-bold">${total}</p>
+      </div>
+      <ProgressBar progress={10} theme={searchedTheme} height={10} noPadding />
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-[#696868] text-[12px] font-semibold">
+          Percentage
+        </span>
+        <span className="text-[#696868] text-[14px]">Target of ${target}</span>
+      </div>
+      {/* Action buttons */}
+      <div className="flex items-center gap-5 mt-5">
+        <button
+          onClick={() => {
+            openModal("add money");
+            setId();
+          }}
+          className={`${BUTTONS_CLASS}`}
+        >
+          + Add Money
+        </button>
+        <button
+          onClick={() => openModal("withdraw")}
+          className={`${BUTTONS_CLASS}`}
+        >
+          Widthraw
+        </button>
       </div>
     </div>
   );

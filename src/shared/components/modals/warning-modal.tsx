@@ -9,12 +9,12 @@ type WarningModalProps = {
   children?: React.ReactNode;
   description: string;
   title: string;
-  confirmText: string;
+  confirmText?: string;
   action: () => void;
 };
 
 export const WarningModal = ({
-  confirmText,
+  confirmText = "Yes, Confirm Deletion",
   description,
   title,
   action,
