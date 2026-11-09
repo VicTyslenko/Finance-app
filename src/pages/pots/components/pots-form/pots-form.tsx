@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { useCreatePot } from "../../../../entities/pots/hooks";
+import { useUpdatePot } from "../../../../entities/pots/hooks";
 import type { PotResponse } from "../../../../entities/pots/models";
 import { CloseButton } from "../../../../shared/components/buttons/close-button";
 import { DefaultButton } from "../../../../shared/components/buttons/default-button/default-button";
@@ -20,20 +21,20 @@ export const NewPotsForm = ({
   selectedPot: PotResponse | null;
 }) => {
   const mode = useModalStore((state) => state.formMode);
-
   const pickedValues: PotsValidationBody = {
     name: selectedPot?.name ?? "",
     target: selectedPot?.target ?? 1,
     theme: selectedPot?.theme ?? "",
   };
 
-  console.log(pickedValues);
   const { handleSubmit, register, setValue, watch } =
     useForm<PotsValidationBody>({
       defaultValues: mode === "new" ? defaultPotsValues : pickedValues,
       // resolver: zodResolver(validationPotSchema),
     });
   const { mutate: createPot } = useCreatePot();
+  const { mutate: updatePot } = useUpdatePot();
+
   const closeModal = useModalStore((state) => state.closeModal);
 
   const theme = watch("theme") || DEFAULT_POT_THEME.name;
@@ -42,15 +43,28 @@ export const NewPotsForm = ({
     potThemes.find((p) => p.name === theme)?.value ?? DEFAULT_POT_THEME.value;
 
   const onSubmit = (values: PotsValidationBody) => {
-    createPot(
-      { user_id: 2, body: values },
-      {
-        onSuccess: () => {
-          toast.success("Pot created!");
-          closeModal();
+    if (mode === "new") {
+      createPot(
+        { user_id: 2, body: values },
+        {
+          onSuccess: () => {
+            toast.success("Pot created!");
+            closeModal();
+          },
         },
-      },
-    );
+      );
+    }
+    if (mode === "edit" && selectedPot) {
+      updatePot(
+        { user_id: 2, pot_id: selectedPot.pot_id, body: values },
+        {
+          onSuccess: () => {
+            toast.success("Pot updated!");
+            closeModal();
+          },
+        },
+      );
+    }
   };
   return (
     <div className="flex flex-col gap-3 w-125">
