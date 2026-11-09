@@ -27,7 +27,6 @@ export const PotsPage = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const { data: potsData = [] } = useGetPots({ user_id: 2 });
-
   const currentPot = potsData.find((p) => p.pot_id === selectedId) ?? null;
 
   const { mutate: deletePot } = useDeletePot();
@@ -48,11 +47,12 @@ export const PotsPage = () => {
   };
 
   const selectedPot = potsData.find((p) => p.pot_id === selectedId) ?? null;
-  
+
   const renderModal = () => {
     if (formMode === "edit" || formMode === "new") {
       return <NewPotsForm selectedPot={selectedPot} />;
     }
+
     return <PotsMoneyForm selectedPot={selectedPot} />;
   };
 

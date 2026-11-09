@@ -7,7 +7,6 @@ import {
   getPots,
   potWithdraw,
   setPotDeposit,
-  type BaseQuery,
   type WithdrawProps,
 } from "./api/pots";
 import type { CreatePotBody, UpdatePotQuery } from "./models";
