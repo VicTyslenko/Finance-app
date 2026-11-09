@@ -31,19 +31,22 @@ export const useBudgetForm = ({ selectedBudget, mode }: BudgetFormProps) => {
       toast.success(`${message}`);
     };
 
+    const onError = (err: Error) => {
+      toast.error(parseErrorMessage(err) || "Something went wrong");
+      closeModal();
+    };
     if (mode === "new") {
-      createBudget({ userId: 2, body: values }, { onSuccess });
+      createBudget({ userId: 2, body: values }, { onSuccess, onError });
       return;
     }
     if (!selectedBudget) return;
-
     updateBudget(
       {
         budgetId: selectedBudget?.budget_id,
         body: values,
         userId: 2,
       },
-      { onSuccess },
+      { onSuccess, onError },
     );
   };
 

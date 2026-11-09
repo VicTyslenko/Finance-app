@@ -5,8 +5,9 @@ import { FormattedAmount } from "../../../../shared/components/formatted-amount"
 import { ProgressBar } from "../../../../shared/components/progress-bar/progress-bar";
 import { formatDate } from "../../../../shared/lib/formatDate";
 import { Avatar } from "../../../overview/components/overview-content/transactions/avatar";
-import { BudgetPopupActions } from "../budget-popup-actions";
+import { PopupActions } from "../../../shared/popup-actions";
 
+import { budgetsPopupData } from "./data";
 import type { BudgetCardProps } from "./models";
 
 export const BudgetCard = ({
@@ -52,7 +53,7 @@ export const BudgetCard = ({
               />
             </button>
           }
-          popupContent={<BudgetPopupActions />}
+          popupContent={<PopupActions data={budgetsPopupData} />}
         />
       </div>
       <p className="text-gray-500 mb-4">Maximum of ${maxSpend}</p>

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router";
 import { useGetTransactions } from "../entities/transactions/hooks";
 import { BudgetsPage } from "../pages/budgets/budgets-page";
 import { OverviewPage } from "../pages/overview/overview-page";
+import { PotsPage } from "../pages/pots/pots-page";
 import { TransactionsPage } from "../pages/transactions/transactions-page";
 import { NAV_TABS } from "../shared/data";
 import type { Category } from "../shared/models";
@@ -39,10 +40,10 @@ export const MainContent = () => {
         <BudgetsPage
           totalSpend={totalSpend}
           categorySpend={categorySpend}
-          // latest={getLatestTransactions}
           latest={getLatestTransactions}
         />
       )}
+      {currentPage === NAV_TABS.POTS && <PotsPage />}
     </div>
   );
 };

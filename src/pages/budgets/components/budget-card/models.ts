@@ -9,3 +9,4 @@ export type BudgetCardProps = {
   latest: (cat: Category) => TransactionsResponse[];
   onDelete: () => void;
 };
+

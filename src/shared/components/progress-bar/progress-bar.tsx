@@ -1,19 +1,26 @@
-import { BUDGETS_THEMES, type BudgetTheme } from "../../models";
+const DEFAULT_HEIGHT = 40;
 
 export const ProgressBar = ({
   progress,
   theme,
+  height = DEFAULT_HEIGHT,
+  noPadding = false,
 }: {
   progress: number;
-  theme: BudgetTheme;
+  height?: number;
+  theme: string;
+  noPadding?: boolean;
 }) => {
   return (
-    <div className="bg-[#f8f4f0] rounded-md h-10 p-1.5 w-full">
+    <div
+      className={`bg-[#f8f4f0] rounded-md ${noPadding ? "p-0" : "p-1.5"} w-full`}
+      style={{ height }}
+    >
       <div
-        className="bg-[#277C78] h-full rounded-md"
+        className="h-full rounded-md"
         style={{
           width: `${progress}%`,
-          backgroundColor: `${BUDGETS_THEMES[theme]}`,
+          backgroundColor: `${theme}`,
         }}
       />
     </div>

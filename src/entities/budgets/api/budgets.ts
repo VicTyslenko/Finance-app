@@ -39,8 +39,9 @@ export const updateBudget = async ({
   body,
   userId,
 }: UpdateBudget): Promise<BudgetResponse> => {
+  console.log(budgetId, userId);
   const data = await api.put<BudgetResponse>(
-    budgetPaths.update(userId, budgetId),
+    budgetPaths.update(budgetId, userId),
     {},
     body,
   );
