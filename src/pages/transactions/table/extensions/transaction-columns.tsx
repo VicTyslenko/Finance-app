@@ -7,7 +7,7 @@ import { Avatar } from "../../../overview/components/overview-content/transactio
 
 const features = tableFeatures({});
 
-export const TransactionColumns: Array<
+export const transactionColumns: Array<
   ColumnDef<typeof features, TransactionsResponse>
 > = [
   {

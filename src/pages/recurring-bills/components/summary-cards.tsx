@@ -13,7 +13,7 @@ export const SummaryCards = ({ total, rows }: SummaryCardsProps) => {
   return (
     <div className="flex flex-2 flex-col gap-5">
       {/* Total card */}
-      <div className="bg-black rounded-lg p-5 flex-2">
+      <div className="bg-black rounded-lg p-5">
         <img
           src="/assets/images/icon-recurring-bills.svg"
           alt="recurring bills"
@@ -31,7 +31,9 @@ export const SummaryCards = ({ total, rows }: SummaryCardsProps) => {
             className="pl-0 pr-3 pb-3 pt-3 not-last:border-b border-gray-300 flex justify-between items-center"
           >
             <span className={`text-sm ${r.titleColor}`}>{r.title}</span>
-            <span className={`font-bold text-md ${r.valueColor}`}>{`${r.qty}($${r.value.toFixed(2)})`}</span>
+            <span
+              className={`font-bold text-md ${r.valueColor}`}
+            >{`${r.qty}($${r.value.toFixed(2)})`}</span>
           </div>
         ))}
       </div>
