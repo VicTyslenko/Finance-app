@@ -2,7 +2,7 @@ import { useTable, tableFeatures } from "@tanstack/react-table";
 
 import { TablePagination } from "../pagination/table-pagination";
 
-import { TransactionColumns } from "./extensions/transaction-columns";
+import { transactionColumns } from "./extensions/transaction-columns";
 import { useTransactionTable } from "./hooks";
 import type { TableProps } from "./models";
 
@@ -23,7 +23,7 @@ export const TransactionTable = ({ data }: TableProps) => {
   const transTable = useTable({
     key: "transaction-table",
     features,
-    columns: TransactionColumns,
+    columns: transactionColumns,
     data: filteredData,
   });
 

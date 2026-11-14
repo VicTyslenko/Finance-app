@@ -4,6 +4,7 @@ import { useGetTransactions } from "../entities/transactions/hooks";
 import { BudgetsPage } from "../pages/budgets/budgets-page";
 import { OverviewPage } from "../pages/overview/overview-page";
 import { PotsPage } from "../pages/pots/pots-page";
+import { RecurringBills } from "../pages/recurring-bills/recurring-bills-page";
 import { TransactionsPage } from "../pages/transactions/transactions-page";
 import { NAV_TABS } from "../shared/data";
 import type { Category } from "../shared/models";
@@ -12,7 +13,7 @@ export const MainContent = () => {
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get("page") ?? NAV_TABS.OVERVIEW;
 
-  const { data: transactions = [] } = useGetTransactions({ user_id: 1 });
+  const { data: transactions = [] } = useGetTransactions({ user_id: 2 });
 
   const getLatestTransactions = (cat: Category) =>
     transactions
@@ -44,6 +45,7 @@ export const MainContent = () => {
         />
       )}
       {currentPage === NAV_TABS.POTS && <PotsPage />}
+      {currentPage ===NAV_TABS.BILLS && <RecurringBills/>}
     </div>
   );
 };
