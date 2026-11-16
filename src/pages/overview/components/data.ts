@@ -1,8 +1,11 @@
-export const kpiCards = [
-  { title: "Current balance", price: "$4,836.00" },
-  { title: "Income", price: "$3,814.25" },
-  { title: "Expenses", price: "$1,700.50" },
+import { type KPICardsProps } from "../models";
+
+export const kpiCards = ({ balance, income, expenses }: KPICardsProps) => [
+  { title: "Current balance", value: balance },
+  { title: "Income", value: income },
+  { title: "Expenses", value: expenses },
 ];
+
 export const budgets = [
   {
     name: "Entertainment",

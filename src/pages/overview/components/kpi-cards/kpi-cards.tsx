@@ -1,9 +1,10 @@
-import { kpiCards } from "../temp-data";
+import type { KPICardsProps } from "../../models";
+import { kpiCards } from "../data";
 
-export const KPICards = () => {
+export const KPICards = ({ income, expenses, balance }: KPICardsProps) => {
   return (
     <div className="flex justify-between mb-5">
-      {kpiCards.map((k, i) => (
+      {kpiCards({ income, balance, expenses }).map((k, i) => (
         <div
           key={k.title}
           className={`rounded-xl pt-3 pb-3 pl-3 pr-30 shadow gap-3 ${i === 0 ? "bg-black" : "bg-white"}`}
@@ -12,11 +13,10 @@ export const KPICards = () => {
             {k.title}
           </h2>
           <p className={`text-xl ${i === 0 ? "text-white" : "text-black"}`}>
-            {k.price}
+            {k.value}
           </p>
         </div>
       ))}
     </div>
   );
 };
-// pt-3 pb-3 pl-3 pr-30

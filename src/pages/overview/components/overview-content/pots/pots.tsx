@@ -1,4 +1,4 @@
-import { details } from "../../temp-data";
+import { details } from "../../data";
 import { ContentHeader } from "../content-header";
 
 export const Pots = () => {

@@ -1,39 +1,34 @@
-import { useSearchParams } from "react-router";
-
-import { useGetTransactions } from "../entities/transactions/hooks";
 import { BudgetsPage } from "../pages/budgets/budgets-page";
 import { OverviewPage } from "../pages/overview/overview-page";
 import { PotsPage } from "../pages/pots/pots-page";
 import { RecurringBills } from "../pages/recurring-bills/recurring-bills-page";
 import { TransactionsPage } from "../pages/transactions/transactions-page";
 import { NAV_TABS } from "../shared/data";
-import type { Category } from "../shared/models";
+import { currencyFormat } from "../shared/lib/currencyFormat";
+
+import { useMainContent } from "./hooks";
 
 export const MainContent = () => {
-  const [searchParams] = useSearchParams();
-  const currentPage = searchParams.get("page") ?? NAV_TABS.OVERVIEW;
-
-  const { data: transactions = [] } = useGetTransactions({ user_id: 2 });
-
-  const getLatestTransactions = (cat: Category) =>
-    transactions
-      .filter((t) => t.category === cat)
-      .sort((a, b) => Date.parse(b.occurred_at) - Date.parse(a.occurred_at))
-      .slice(0, 3);
-
-  const totalSpend = transactions.reduce(
-    (acc, { amount }): number => Math.round(acc + amount),
-    0,
-  );
-
-  const categorySpend = (cat: string) =>
-    transactions
-      .filter((t) => t.category === cat)
-      ?.reduce((acc, cat) => acc + Number(cat.amount), 0);
+  const {
+    transactions,
+    currentPage,
+    currentUser,
+    income,
+    formattedExpenses,
+    totalSpend,
+    categorySpend,
+    getLatestTransactions,
+  } = useMainContent();
 
   return (
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
-      {currentPage === NAV_TABS.OVERVIEW && <OverviewPage />}
+      {currentPage === NAV_TABS.OVERVIEW && (
+        <OverviewPage
+          income={currencyFormat(income)}
+          expenses={currencyFormat(formattedExpenses)}
+          currentUser={currentUser}
+        />
+      )}
       {currentPage === NAV_TABS.TRANSACTIONS && (
         <TransactionsPage data={transactions} />
       )}
@@ -45,7 +40,7 @@ export const MainContent = () => {
         />
       )}
       {currentPage === NAV_TABS.POTS && <PotsPage />}
-      {currentPage ===NAV_TABS.BILLS && <RecurringBills/>}
+      {currentPage === NAV_TABS.BILLS && <RecurringBills />}
     </div>
   );
 };

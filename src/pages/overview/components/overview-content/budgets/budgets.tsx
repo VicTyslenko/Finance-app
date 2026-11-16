@@ -1,4 +1,4 @@
-import { budgets } from "../../temp-data";
+import { budgets } from "../../data";
 import { ContentHeader } from "../content-header";
 
 import { Chart } from "./chart/chart";
