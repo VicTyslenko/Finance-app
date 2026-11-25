@@ -29,6 +29,7 @@ export const budgets = [
   },
 ];
 export const budgetSpent = 338;
+
 export const details = [
   { title: "Savings", price: "$159", border: "border-green-800" },
   { title: "Gift", price: "$40", border: "border-cyan-600" },

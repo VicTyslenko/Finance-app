@@ -10,10 +10,11 @@ const TRANS_LIMIT = 5;
 
 export const OverviewContent = () => {
   const { data: transactions = [] } = useGetTransactions({
-    user_id: 1,
+    user_id: 2,
     limit: TRANS_LIMIT,
   });
 
+  
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Left column */}
