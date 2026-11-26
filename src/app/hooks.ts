@@ -10,6 +10,7 @@ export const useMainContent = () => {
   const currentPage = searchParams.get("page") ?? NAV_TABS.OVERVIEW;
 
   const { data: transactions = [] } = useGetTransactions({ user_id: 2 });
+  const limitedTransactions = transactions.slice(0, 5);
 
   const income = transactions
     .filter((t) => t.amount >= 0)
@@ -47,5 +48,6 @@ export const useMainContent = () => {
     categorySpend,
     getLatestTransactions,
     transactions,
+    limitedTransactions,
   };
 };

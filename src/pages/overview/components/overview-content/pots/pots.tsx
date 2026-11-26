@@ -1,14 +1,21 @@
+import { useNavigate } from "react-router";
+
 import { useGetPots } from "../../../../../entities/pots/hooks";
 import { themeByName } from "../../../../pots/components/pots-form/data";
 import { ContentHeader } from "../content-header";
 
 export const Pots = () => {
+  const navigate = useNavigate();
   const { data: potsData = [] } = useGetPots({ user_id: 2 });
   const totalSaved = potsData?.reduce((acc, p) => acc + p.total, 0);
 
   return (
     <div className="bg-white shadow-xl p-5 rounded-lg">
-      <ContentHeader title="Pots" details="See details" />
+      <ContentHeader
+        title="Pots"
+        details="See details"
+        navigate={() => navigate("/?page=pots")}
+      />
       {/* Content */}
       <div className="grid grid-cols-2 gap-5">
         {/* Total */}

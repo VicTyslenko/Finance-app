@@ -18,12 +18,14 @@ export const MainContent = () => {
     totalSpend,
     categorySpend,
     getLatestTransactions,
+    limitedTransactions,
   } = useMainContent();
 
   return (
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && (
         <OverviewPage
+          transactions={limitedTransactions}
           income={currencyFormat(income)}
           expenses={currencyFormat(formattedExpenses)}
           currentUser={currentUser}

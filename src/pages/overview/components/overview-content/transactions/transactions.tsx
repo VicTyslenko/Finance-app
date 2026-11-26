@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import type { TransactionsResponse } from "../../../../../entities/transactions/models";
 import { FormattedAmount } from "../../../../../shared/components/formatted-amount";
 import { formatDate } from "../../../../../shared/lib/formatDate";
@@ -5,14 +7,16 @@ import { ContentHeader } from "../content-header";
 
 import { Avatar } from "./avatar";
 
-type Props = {
-  data: TransactionsResponse[];
-};
+export const Transactions = ({ data }: { data: TransactionsResponse[] }) => {
+  const navigate = useNavigate();
 
-export const Transactions = ({ data }: Props) => {
   return (
     <div className="bg-white shadow-xl flex-1 p-5 rounded-md">
-      <ContentHeader title="Transactions" details="View All" />
+      <ContentHeader
+        title="Transactions"
+        details="View All"
+        navigate={() => navigate("/?page=transactions")}
+      />
       {/* Info table */}
 
       <div>
