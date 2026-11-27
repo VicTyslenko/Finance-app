@@ -21,6 +21,7 @@ export const MainContent = () => {
     limitedTransactions,
   } = useMainContent();
 
+
   return (
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && (
