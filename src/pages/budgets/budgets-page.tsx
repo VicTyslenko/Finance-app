@@ -5,7 +5,7 @@ import { WarningModal } from "../../shared/components/modals/warning-modal";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { roundNumber } from "../../shared/lib/round-number";
 import { BUDGETS_THEMES, type Category } from "../../shared/models";
-import { Chart } from "../overview/components/overview-content/budgets/chart/chart";
+import { Chart } from "../overview/components/budgets/chart/chart";
 
 import { BudgetCard } from "./components/budget-card/budget-card";
 import { NewBudgetForm } from "./components/new-budget-form/new-budget-form";

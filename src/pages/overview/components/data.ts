@@ -1,8 +1,11 @@
-export const kpiCards = [
-  { title: "Current balance", price: "$4,836.00" },
-  { title: "Income", price: "$3,814.25" },
-  { title: "Expenses", price: "$1,700.50" },
+import { type KPICardsProps } from "../models";
+
+export const kpiCards = ({ balance, income, expenses }: KPICardsProps) => [
+  { title: "Current balance", value: balance },
+  { title: "Income", value: income },
+  { title: "Expenses", value: expenses },
 ];
+
 export const budgets = [
   {
     name: "Entertainment",
@@ -26,6 +29,7 @@ export const budgets = [
   },
 ];
 export const budgetSpent = 338;
+
 export const details = [
   { title: "Savings", price: "$159", border: "border-green-800" },
   { title: "Gift", price: "$40", border: "border-cyan-600" },
@@ -66,8 +70,21 @@ export const transactionsTable = [
   },
 ];
 
-export const billsInfo = [
-  { title: "Paid Bills", price: "190.00", border: "border-yellow-400" },
-  { title: "Total Upcoming", price: "194.98", border: "border-green-800" },
-  { title: "Due Soon", price: "59.98", border: "border-cyan-600" },
+export const billsInfo = ({
+  paid,
+  total,
+  due,
+}: {
+  paid: string;
+  total: string;
+  due: string;
+}) => [
+  { id: 1, title: "Paid Bills", amount: paid, border: "border-green-800" },
+  {
+    id: 2,
+    title: "Total Upcoming",
+    amount: total,
+    border: "border-yellow-400",
+  },
+  { id: 3, title: "Due Soon", amount: due, border: "border-cyan-600" },
 ];

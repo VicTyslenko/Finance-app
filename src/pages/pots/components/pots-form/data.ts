@@ -22,3 +22,7 @@ export const defaultPotsValues = {
   target: 1,
   theme: DEFAULT_POT_THEME.name,
 };
+
+export const themeByName = Object.fromEntries(
+  potThemes.map(({ name, value }) => [name, value]),
+);

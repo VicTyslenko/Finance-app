@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 
 import * as echarts from "echarts";
 
-import { budgets } from "../../../temp-data";
+
+import { budgets } from "../../data";
 
 import type { ChartProps } from "./models";
 

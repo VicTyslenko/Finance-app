@@ -3,7 +3,7 @@ import { tableFeatures, type ColumnDef } from "@tanstack/react-table";
 import type { TransactionsResponse } from "../../../../entities/transactions/models";
 import { FormattedAmount } from "../../../../shared/components/formatted-amount";
 import { formatDate } from "../../../../shared/lib/formatDate";
-import { Avatar } from "../../../overview/components/overview-content/transactions/avatar";
+import { Avatar } from "../../../overview/components/transactions/avatar";
 
 const features = tableFeatures({});
 

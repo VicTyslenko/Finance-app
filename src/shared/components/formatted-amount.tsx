@@ -1,4 +1,4 @@
-import { amountStyle } from "../../pages/overview/components/overview-content/transactions/lib";
+import { amountStyle } from "../../pages/overview/components/transactions/lib";
 import { trimmedNumber } from "../lib/trimmedNumber";
 
 export const FormattedAmount = ({ amount }: { amount: number }) => {

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 
 import { useSearchParams } from "react-router";
 
+import { NAV_TABS } from "../../../shared/data";
 import { TABS_DATA } from "../data";
 import { logoPath } from "../lib";
 
@@ -12,14 +13,11 @@ type Props = {
 export const Tabs = ({ minimized }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const currentTab = searchParams.get("page") ?? "overview";
+  const currentTab = searchParams.get("page") ?? NAV_TABS.OVERVIEW;
+
   const handleToggleTabs = (value: string) => {
     const trimmed = value.toLowerCase();
-
-    setSearchParams((prev) => {
-      prev.set("page", trimmed);
-      return prev;
-    });
+    setSearchParams({ page: trimmed });
   };
 
   return (

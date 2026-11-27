@@ -20,7 +20,6 @@ export const PotsCard = ({
     potThemes.find((t) => t.name === theme)?.value || DEFAULT_POT_THEME.value;
 
   const percentageSaved = (total * 100) / target;
-  console.log(percentageSaved);
   return (
     <div className="bg-white rounded-lg p-5 min-w-130">
       <div className="flex justify-between items-center mb-10">
