@@ -59,5 +59,12 @@ export const useRecurringBills = () => {
     },
   ];
 
-  return { total, summaryRows, recurringBills };
+  return {
+    total,
+    summaryRows,
+    recurringBills,
+    paidBillsAmount,
+    upcomingAmount,
+    dueSoonValue,
+  };
 };

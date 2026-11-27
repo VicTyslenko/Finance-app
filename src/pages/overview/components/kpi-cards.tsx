@@ -1,5 +1,6 @@
-import type { KPICardsProps } from "../../models";
-import { kpiCards } from "../data";
+import type { KPICardsProps } from "../models";
+
+import { kpiCards } from "./data";
 
 export const KPICards = ({ income, expenses, balance }: KPICardsProps) => {
   return (

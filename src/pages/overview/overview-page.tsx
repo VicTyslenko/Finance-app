@@ -3,11 +3,11 @@ import type { UserResponse } from "../../entities/users/models";
 import { PagesHeader } from "../../shared/components/pages-header";
 import { currencyFormat } from "../../shared/lib/currencyFormat";
 
-import { KPICards } from "./components/kpi-cards/kpi-cards";
-import { RecurringBills } from "./components/overview-content/bills/recurring-bills";
-import { Budgets } from "./components/overview-content/budgets/budgets";
-import { Pots } from "./components/overview-content/pots/pots";
-import { Transactions } from "./components/overview-content/transactions/transactions";
+import { RecurringBills } from "./components/bills/recurring-bills";
+import { Budgets } from "./components/budgets/budgets";
+import { KPICards } from "./components/kpi-cards";
+import { Pots } from "./components/pots/pots";
+import { Transactions } from "./components/transactions/transactions";
 
 export const OverviewPage = ({
   currentUser,

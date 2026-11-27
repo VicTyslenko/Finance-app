@@ -70,8 +70,21 @@ export const transactionsTable = [
   },
 ];
 
-export const billsInfo = [
-  { title: "Paid Bills", price: "190.00", border: "border-yellow-400" },
-  { title: "Total Upcoming", price: "194.98", border: "border-green-800" },
-  { title: "Due Soon", price: "59.98", border: "border-cyan-600" },
+export const billsInfo = ({
+  paid,
+  total,
+  due,
+}: {
+  paid: string;
+  total: string;
+  due: string;
+}) => [
+  { id: 1, title: "Paid Bills", amount: paid, border: "border-green-800" },
+  {
+    id: 2,
+    title: "Total Upcoming",
+    amount: total,
+    border: "border-yellow-400",
+  },
+  { id: 3, title: "Due Soon", amount: due, border: "border-cyan-600" },
 ];

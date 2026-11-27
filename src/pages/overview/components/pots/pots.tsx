@@ -1,7 +1,9 @@
+import { Fragment } from "react";
+
 import { useNavigate } from "react-router";
 
-import { useGetPots } from "../../../../../entities/pots/hooks";
-import { themeByName } from "../../../../pots/components/pots-form/data";
+import { useGetPots } from "../../../../entities/pots/hooks";
+import { themeByName } from "../../../pots/components/pots-form/data";
 import { ContentHeader } from "../content-header";
 
 export const Pots = () => {
@@ -33,18 +35,18 @@ export const Pots = () => {
           {potsData.map((d) => {
             const border = themeByName[d.theme];
             return (
-              <>
+              <Fragment key={d.pot_id}>
                 <div className="flex items-center gap-3">
                   <div
                     className="rounded-full w-1 h-10"
                     style={{ backgroundColor: border }}
                   />
-                  <div key={d.pot_id} className="flex flex-col gap-1.5">
+                  <div className="flex flex-col gap-1.5">
                     <h3 className="text-gray-500 text-sm">{d.name}</h3>
                     <p className="font-bold text-md text-black">${d.target}</p>
                   </div>
                 </div>
-              </>
+              </Fragment>
             );
           })}
         </div>

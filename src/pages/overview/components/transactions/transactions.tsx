@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 
-import type { TransactionsResponse } from "../../../../../entities/transactions/models";
-import { FormattedAmount } from "../../../../../shared/components/formatted-amount";
-import { formatDate } from "../../../../../shared/lib/formatDate";
+import type { TransactionsResponse } from "../../../../entities/transactions/models";
+import { FormattedAmount } from "../../../../shared/components/formatted-amount";
+import { formatDate } from "../../../../shared/lib/formatDate";
 import { ContentHeader } from "../content-header";
 
 import { Avatar } from "./avatar";

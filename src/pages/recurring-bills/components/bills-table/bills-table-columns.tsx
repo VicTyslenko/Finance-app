@@ -1,7 +1,7 @@
 import { type ColumnDef, tableFeatures } from "@tanstack/react-table";
 
 import type { RecBillsResponse } from "../../../../entities/recurring-bills/models";
-import { Avatar } from "../../../overview/components/overview-content/transactions/avatar";
+import { Avatar } from "../../../overview/components/transactions/avatar";
 import { basePath } from "../../data";
 import { dateEnding, isDueSoon } from "../../lib";
 
