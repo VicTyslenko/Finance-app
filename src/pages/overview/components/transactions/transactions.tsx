@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router";
-
 import type { TransactionsResponse } from "../../../../entities/transactions/models";
 import { FormattedAmount } from "../../../../shared/components/formatted-amount";
 import { formatDate } from "../../../../shared/lib/formatDate";
@@ -8,14 +6,12 @@ import { ContentHeader } from "../content-header";
 import { Avatar } from "./avatar";
 
 export const Transactions = ({ data }: { data: TransactionsResponse[] }) => {
-  const navigate = useNavigate();
-
   return (
     <div className="bg-white shadow-xl flex-1 p-5 rounded-md">
       <ContentHeader
         title="Transactions"
         details="View All"
-        navigate={() => navigate("/?page=transactions")}
+        navigateTo="transactions"
       />
       {/* Info table */}
 

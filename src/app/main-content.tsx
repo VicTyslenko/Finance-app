@@ -25,6 +25,7 @@ export const MainContent = () => {
     <div className="flex flex-3 flex-col px-8 pb-8 overflow-y-auto scrollbar-slim">
       {currentPage === NAV_TABS.OVERVIEW && (
         <OverviewPage
+          totalSpend={totalSpend}
           transactions={limitedTransactions}
           income={currencyFormat(income)}
           expenses={currencyFormat(formattedExpenses)}

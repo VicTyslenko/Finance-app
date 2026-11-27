@@ -1,18 +1,15 @@
-import { useNavigate } from "react-router";
-
 import { useRecurringBills } from "../../../recurring-bills/hooks";
 import { ContentHeader } from "../content-header";
 import { billsInfo } from "../data";
 
 export const RecurringBills = () => {
-  const navigate = useNavigate();
   const { paidBillsAmount, upcomingAmount, dueSoonValue } = useRecurringBills();
   return (
     <section className="bg-white shadow-xl p-7 rounded-md flex-1">
       <ContentHeader
         title="Recurring Bills"
         details="See Details"
-        navigate={() => navigate("/?page=bills")}
+        navigateTo="bills"
       />
 
       {/* Info wrapp */}

@@ -14,11 +14,13 @@ export const OverviewPage = ({
   income,
   expenses,
   transactions,
+  totalSpend,
 }: {
   currentUser?: UserResponse;
   income: string;
   expenses: string;
   transactions: TransactionsResponse[];
+  totalSpend: number;
 }) => {
   const balance = currentUser?.balance || 0;
 
@@ -39,7 +41,7 @@ export const OverviewPage = ({
 
         {/* Right column */}
         <div className="flex flex-col gap-4 lg:flex-2 min-w-0">
-          <Budgets />
+          <Budgets totalSpend={totalSpend} />
           <RecurringBills />
         </div>
       </div>
